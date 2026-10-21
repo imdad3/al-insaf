@@ -42,12 +42,12 @@
 
       <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
         <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">সদস্য আইডি (Member ID)</label>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">সদস্য / ক্যাশিয়ার আইডি</label>
           <div class="relative">
             <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
               <i class="fa-solid fa-user"></i>
             </span>
-            <input type="text" id="loginId" required placeholder="যেমন: admin বা আপনার আইডি" 
+            <input type="text" id="loginId" required placeholder="যেমন: admin বা সদস্য আইডি" 
                    class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500">
           </div>
         </div>
@@ -97,7 +97,7 @@
       <div class="bg-gradient-to-br from-teal-600 to-emerald-700 rounded-2xl p-5 text-white shadow-lg shadow-teal-600/20">
         <div class="flex justify-between items-start mb-3">
           <div>
-            <p class="text-xs text-teal-100">অ্যাকাউন্ট হোল্ডার:</p>
+            <p class="text-xs text-teal-100">হিসাব বিবরণী:</p>
             <h3 id="currentUserName" class="text-xl font-bold"></h3>
             <p id="currentUserId" class="text-xs text-teal-200 font-mono"></p>
           </div>
@@ -110,67 +110,88 @@
             <p id="userOwnDeposit" class="font-bold text-sm sm:text-base mt-0.5">৳ ০</p>
           </div>
           <div>
-            <p class="text-[11px] text-teal-100">অর্জিত মুনাফা</p>
+            <p class="text-[11px] text-teal-100">কিস্তির মুনাফা</p>
             <p id="userProfit" class="font-bold text-sm sm:text-base mt-0.5 text-emerald-200">৳ ০</p>
           </div>
           <div>
-            <p class="text-[11px] text-teal-100">মোট পুঁজি</p>
+            <p class="text-[11px] text-teal-100">মোট বর্তমান পুঁজি</p>
             <p id="userBalance" class="font-bold text-base sm:text-lg mt-0.5 text-yellow-300">৳ ০</p>
           </div>
         </div>
       </div>
 
-      <!-- ক্যাশিয়ার ও এডমিনের লেনদেন অ্যাকশন বাটন -->
+      <!-- ক্যাশিয়ার ও এডমিনের প্রধান অ্যাকশন বাটনসমূহ -->
       <div id="cashierActions" class="hidden space-y-3">
-        <div class="flex justify-between items-center">
-          <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider">লেনদেন কার্যক্রম</h3>
-          <span id="cashierNotice" class="text-[11px] text-amber-600 font-medium hidden">* ক্যাশিয়ারের এন্ট্রি এডমিন অনুমোদন করলে জমা হবে</span>
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <button onclick="openModal('depositModal')" class="bg-white hover:bg-slate-50 border border-teal-200 p-4 rounded-2xl shadow-sm flex items-center gap-3">
-            <div class="w-11 h-11 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center text-xl shrink-0">
+        <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider">লেনদেন ও কিস্তি কার্যক্রম</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <!-- ১. সঞ্চয় জমা -->
+          <button onclick="openModal('depositModal')" class="bg-white hover:bg-slate-50 border border-teal-200 p-3 rounded-2xl shadow-sm text-left">
+            <div class="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center text-lg mb-2">
               <i class="fa-solid fa-hand-holding-dollar"></i>
             </div>
-            <div class="text-left">
-              <p class="text-sm font-bold text-slate-800">টাকা জমা এন্ট্রি</p>
-              <p class="text-[10px] text-slate-400">সদস্যের সঞ্চয় গ্রহণ</p>
-            </div>
+            <p class="text-xs font-bold text-slate-800">সঞ্চয় জমা</p>
+            <p class="text-[10px] text-slate-400">সদস্যের মাসিক জমা</p>
           </button>
 
-          <button onclick="openModal('voucherModal')" class="bg-white hover:bg-slate-50 border border-amber-200 p-4 rounded-2xl shadow-sm flex items-center gap-3">
-            <div class="w-11 h-11 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl shrink-0">
+          <!-- ২. নতুন কিস্তি বিক্রি -->
+          <button onclick="openModal('newSaleModal')" class="bg-white hover:bg-slate-50 border border-emerald-200 p-3 rounded-2xl shadow-sm text-left">
+            <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg mb-2">
+              <i class="fa-solid fa-cart-plus"></i>
+            </div>
+            <p class="text-xs font-bold text-slate-800">নতুন কিস্তি বিক্রি</p>
+            <p class="text-[10px] text-slate-400">পণ্য, ইনভেস্ট ও বিক্রয়</p>
+          </button>
+
+          <!-- ৩. কিস্তি আদায় -->
+          <button onclick="openModal('collectInstallmentModal')" class="bg-white hover:bg-slate-50 border border-blue-200 p-3 rounded-2xl shadow-sm text-left">
+            <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg mb-2">
+              <i class="fa-solid fa-money-bill-transfer"></i>
+            </div>
+            <p class="text-xs font-bold text-slate-800">কিস্তি আদায়</p>
+            <p class="text-[10px] text-slate-400">বকেয়া কিস্তির টাকা গ্রহণ</p>
+          </button>
+
+          <!-- ৪. ভাউচার এন্ট্রি -->
+          <button onclick="openModal('voucherModal')" class="bg-white hover:bg-slate-50 border border-amber-200 p-3 rounded-2xl shadow-sm text-left">
+            <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg mb-2">
               <i class="fa-solid fa-file-invoice-dollar"></i>
             </div>
-            <div class="text-left">
-              <p class="text-sm font-bold text-slate-800">ভাউচার এন্ট্রি</p>
-              <p class="text-[10px] text-slate-400">খরচের হিসাব প্রদান</p>
-            </div>
+            <p class="text-xs font-bold text-slate-800">ভাউচার এন্ট্রি</p>
+            <p class="text-[10px] text-slate-400">অফিস বা বিবিধ খরচ</p>
           </button>
         </div>
       </div>
 
       <!-- এডমিন: অপেক্ষমাণ অনুমোদন সেকশন (Pending Approvals) -->
       <div id="approvalSection" class="hidden space-y-4">
-        <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 shadow-sm">
+        <div class="bg-amber-50 border border-amber-300 rounded-2xl p-4 shadow-sm">
           <div class="flex items-center justify-between mb-3">
             <div class="flex items-center gap-2">
               <span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-ping"></span>
-              <h3 class="font-bold text-amber-900 text-sm">অনুমোদনের জন্য অপেক্ষমাণ এন্ট্রি</h3>
+              <h3 class="font-bold text-amber-900 text-sm">অনুমোদনের জন্য অপেক্ষমাণ তালিকা</h3>
             </div>
             <span id="pendingTotalCount" class="text-xs bg-amber-200 text-amber-800 font-bold px-2 py-0.5 rounded-full">০ টি</span>
           </div>
 
-          <!-- পেন্ডিং সঞ্চয় তালিকা -->
+          <!-- কিস্তি আদায়ের অনুমোদন (সবচেয়ে গুরুত্বপূর্ণ) -->
           <div class="space-y-2 mb-3">
-            <p class="text-xs font-semibold text-slate-700">সঞ্চয় জমা অনুমোদন:</p>
+            <p class="text-xs font-bold text-blue-900">কিস্তি আদায় অনুমোদন (অনুমোদনে অটো মুনাফা বণ্টন হবে):</p>
+            <div id="pendingInstallmentsList" class="space-y-2 text-xs">
+              <p class="text-slate-400 text-xs italic">কোনো কিস্তি আদায় অপেক্ষমাণ নেই</p>
+            </div>
+          </div>
+
+          <!-- সঞ্চয় জমা অনুমোদন -->
+          <div class="space-y-2 mb-3 pt-2 border-t border-amber-200">
+            <p class="text-xs font-bold text-teal-900">সঞ্চয় জমা অনুমোদন:</p>
             <div id="pendingDepositsList" class="space-y-2 text-xs">
               <p class="text-slate-400 text-xs italic">কোনো সঞ্চয় জমা অপেক্ষমাণ নেই</p>
             </div>
           </div>
 
-          <!-- পেন্ডিং ভাউচার তালিকা -->
+          <!-- ভাউচার অনুমোদন -->
           <div class="space-y-2 pt-2 border-t border-amber-200">
-            <p class="text-xs font-semibold text-slate-700">ভাউচার অনুমোদন:</p>
+            <p class="text-xs font-bold text-amber-900">ভাউচার অনুমোদন:</p>
             <div id="pendingVouchersList" class="space-y-2 text-xs">
               <p class="text-slate-400 text-xs italic">কোনো ভাউচার অপেক্ষমাণ নেই</p>
             </div>
@@ -178,12 +199,36 @@
         </div>
       </div>
 
-      <!-- শুধু এডমিন ম্যানেজমেন্ট প্যানেল -->
+      <!-- চলমান কিস্তি বিক্রয় হিসাব খতিয়ান (এডমিন ও ক্যাশিয়ার উভয়ের জন্য) -->
+      <div id="salesLedgerSection" class="hidden bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="px-5 py-3 border-b border-slate-100 flex items-center justify-between">
+          <h3 class="font-bold text-slate-800 text-sm">চলমান কিস্তি বিক্রি খতিয়ান</h3>
+          <span class="text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded font-medium">বিক্রি ও বকেয়া</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="bg-slate-50 text-slate-500 border-b border-slate-200">
+                <th class="py-3 px-4">ক্রেতা ও পণ্য</th>
+                <th class="py-3 px-4 text-right">ইনভেস্ট</th>
+                <th class="py-3 px-4 text-right">বিক্রয়মূল্য</th>
+                <th class="py-3 px-4 text-right">মোট লাভ</th>
+                <th class="py-3 px-4 text-right">আদায়কৃত</th>
+                <th class="py-3 px-4 text-right">বকেয়া</th>
+                <th class="py-3 px-4 text-center">অবস্থা</th>
+              </tr>
+            </thead>
+            <tbody id="salesTableBody" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- এডমিন ড্যাশবোর্ড ও সদস্য ব্যবস্থাপনা -->
       <div id="adminPanel" class="hidden space-y-5">
         <!-- সমিতির সর্বমোট পরিসংখ্যান -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
           <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-            <p class="text-xs text-slate-500 font-medium">সমিতির সর্বমোট পুঁজি</p>
+            <p class="text-xs text-slate-500 font-medium">সমিতির মোট পুঁজি</p>
             <h4 id="statTotalCapital" class="text-lg font-bold text-slate-800 mt-1">৳ ০</h4>
           </div>
           <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
@@ -200,34 +245,14 @@
           </div>
         </div>
 
-        <!-- এডমিন স্পেশাল অ্যাকশন -->
-        <div class="grid grid-cols-2 gap-3">
-          <button onclick="openModal('saleModal')" class="bg-white hover:bg-slate-50 border border-slate-200 p-4 rounded-2xl shadow-sm text-left flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg">
-              <i class="fa-solid fa-cart-shopping"></i>
-            </div>
-            <div>
-              <p class="text-xs font-bold text-slate-800">কিস্তি বিক্রি ও মুনাফা</p>
-              <p class="text-[10px] text-slate-400">অনুপাতে মুনাফা বণ্টন</p>
-            </div>
-          </button>
-
-          <button onclick="openModal('memberModal')" class="bg-white hover:bg-slate-50 border border-slate-200 p-4 rounded-2xl shadow-sm text-left flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-lg">
-              <i class="fa-solid fa-user-plus"></i>
-            </div>
-            <div>
-              <p class="text-xs font-bold text-slate-800">নতুন সদস্য নিবন্ধন</p>
-              <p class="text-[10px] text-slate-400">আইডি ও পিন তৈরি</p>
-            </div>
-          </button>
-        </div>
-
         <!-- সদস্য তালিকা টেবিল (ক্যাশিয়ার রোল সুইচসহ) -->
         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
           <div class="px-5 py-3 border-b border-slate-100 flex items-center justify-between">
-            <h3 class="font-bold text-slate-800 text-sm">সকল সদস্যের তালিকা ও পদবী নির্ধারণ</h3>
-            <span class="text-xs bg-slate-100 px-2.5 py-1 rounded-md text-slate-600 font-medium">এডমিন নিয়ন্ত্রণ</span>
+            <h3 class="font-bold text-slate-800 text-sm">সকল সদস্যের মূলধন ও পদবী নিয়ন্ত্রণ</h3>
+            <button onclick="openModal('memberModal')" class="bg-indigo-600 text-white text-xs px-3 py-1.5 rounded-lg flex items-center gap-1">
+              <i class="fa-solid fa-user-plus"></i>
+              <span>নতুন সদস্য</span>
+            </button>
           </div>
           <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse text-xs">
@@ -237,7 +262,7 @@
                   <th class="py-3 px-4">বর্তমান পদবী</th>
                   <th class="py-3 px-4 text-right">পকেট জমা</th>
                   <th class="py-3 px-4 text-right">মুনাফা</th>
-                  <th class="py-3 px-4 text-right">মোট পুঁজি</th>
+                  <th class="py-3 px-4 text-right">মোট মূলধন</th>
                   <th class="py-3 px-4 text-center">পদবী পরিবর্তন</th>
                 </tr>
               </thead>
@@ -247,11 +272,11 @@
         </div>
       </div>
 
-      <!-- অনুমোদিত খরচের ভাউচার খতিয়ান -->
+      <!-- অনুমোদিত খরচের ভাউচার তালিকা -->
       <div id="voucherHistorySection" class="hidden bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
         <div class="px-5 py-3 border-b border-slate-100 flex items-center justify-between">
           <h3 class="font-bold text-slate-800 text-sm">অনুমোদিত খরচের ভাউচারসমূহ</h3>
-          <span class="text-xs bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-medium">ভাউচার হিস্ট্রি</span>
+          <span class="text-xs bg-amber-50 text-amber-700 px-2 py-0.5 rounded font-medium">ব্যয় খতিয়ান</span>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse text-xs">
@@ -272,7 +297,59 @@
 
   <!-- ==================== মোডালসমূহ ==================== -->
 
-  <!-- ১. সঞ্চয় জমা মোডাল -->
+  <!-- ১. নতুন কিস্তি বিক্রি মোডাল -->
+  <div id="newSaleModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-sm rounded-2xl p-5 shadow-2xl">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="font-bold text-base text-slate-800">নতুন কিস্তি বিক্রি এন্ট্রি</h3>
+        <button onclick="closeModal('newSaleModal')" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form onsubmit="handleNewSale(event)" class="space-y-3">
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">পণ্য ক্রেতার নাম</label>
+          <input type="text" id="saleCustomerName" required placeholder="যেমন: মো: করিম" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">পণ্যের বিবরণ / নাম</label>
+          <input type="text" id="saleProductName" required placeholder="যেমন: সিলিং ফ্যান / সেলাই মেশিন" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">মূল ইনভেস্ট / ক্রয়মূল্য (টাকা)</label>
+          <input type="number" id="saleInvestAmount" min="1" required placeholder="পণ্যের কেনা দাম" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">বিক্রিত পণ্যের বিক্রয় মূল্য (টাকা)</label>
+          <input type="number" id="saleTotalAmount" min="1" required placeholder="সর্বমোট কিস্তির বিক্রয়মূল্য" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
+        </div>
+        <button type="submit" class="w-full bg-emerald-600 text-white font-semibold py-2.5 rounded-lg text-xs mt-2 hover:bg-emerald-700">বিক্রি হিসাব সংরক্ষণ করুন</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ২. কিস্তি আদায় মোডাল -->
+  <div id="collectInstallmentModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-sm rounded-2xl p-5 shadow-2xl">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="font-bold text-base text-slate-800">কিস্তি টাকা আদায়</h3>
+        <button onclick="closeModal('collectInstallmentModal')" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form onsubmit="handleCollectInstallment(event)" class="space-y-3">
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">কিস্তির খাতা / ক্রেতা বাছাই করুন</label>
+          <select id="collectSaleSelect" required onchange="updateDueHint()" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs"></select>
+          <p id="saleDueHint" class="text-[11px] text-blue-600 font-semibold mt-1"></p>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">আজকে প্রাপ্ত কিস্তির টাকা</label>
+          <input type="number" id="collectAmount" min="1" required placeholder="কিস্তির পরিমাণ" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
+          <p class="text-[10px] text-slate-400 mt-1">* কিস্তি আদায় হলে স্বয়ংক্রিয়ভাবে আসল ও মুনাফা আলাদা হয়ে সদস্যদের অ্যাকাউন্টে চলে যাবে।</p>
+        </div>
+        <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-2.5 rounded-lg text-xs mt-2 hover:bg-blue-700">কিস্তি জমা এন্ট্রি দিন</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ৩. মাসিক সঞ্চয় জমা মোডাল -->
   <div id="depositModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-sm rounded-2xl p-5 shadow-2xl">
       <div class="flex justify-between items-center mb-4">
@@ -282,18 +359,18 @@
       <form onsubmit="handleDeposit(event)" class="space-y-3">
         <div>
           <label class="block text-xs font-semibold text-slate-600 mb-1">সদস্য নির্বাচন করুন</label>
-          <select id="depositMemberSelect" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-teal-500"></select>
+          <select id="depositMemberSelect" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs"></select>
         </div>
         <div>
           <label class="block text-xs font-semibold text-slate-600 mb-1">জমার পরিমাণ (টাকা)</label>
-          <input type="number" id="depositAmount" min="10" required placeholder="যেমন: ১০০০" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-teal-500">
+          <input type="number" id="depositAmount" min="10" required placeholder="যেমন: ১০০০" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
         </div>
-        <button type="submit" class="w-full bg-teal-600 text-white font-semibold py-2.5 rounded-lg text-xs mt-2 hover:bg-teal-700">জমা প্রদান করুন</button>
+        <button type="submit" class="w-full bg-teal-600 text-white font-semibold py-2.5 rounded-lg text-xs mt-2 hover:bg-teal-700">জমা সাবমিট করুন</button>
       </form>
     </div>
   </div>
 
-  <!-- ২. খরচের ভাউচার মোডাল -->
+  <!-- ৪. ভাউচার মোডাল -->
   <div id="voucherModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-sm rounded-2xl p-5 shadow-2xl">
       <div class="flex justify-between items-center mb-4">
@@ -302,8 +379,8 @@
       </div>
       <form onsubmit="handleVoucher(event)" class="space-y-3">
         <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">খরচের কারণ / খাত</label>
-          <input type="text" id="voucherReason" required placeholder="যেমন: নাস্তা খরচ, যাতায়াত" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
+          <label class="block text-xs font-semibold text-slate-600 mb-1">খরচের খাত / কারণ</label>
+          <input type="text" id="voucherReason" required placeholder="যেমন: খাতা কেনা, আপ্যায়ন" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
         </div>
         <div>
           <label class="block text-xs font-semibold text-slate-600 mb-1">টাকার পরিমাণ</label>
@@ -311,36 +388,14 @@
         </div>
         <div>
           <label class="block text-xs font-semibold text-slate-600 mb-1">টাকা গ্রহণকারী (ঐচ্ছিক)</label>
-          <input type="text" id="voucherReceiver" placeholder="কার কাছে টাকা দেওয়া হলো" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
+          <input type="text" id="voucherReceiver" placeholder="কার কাছে দেওয়া হলো" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
         </div>
         <button type="submit" class="w-full bg-amber-600 text-white font-semibold py-2.5 rounded-lg text-xs mt-2 hover:bg-amber-700">ভাউচার সাবমিট করুন</button>
       </form>
     </div>
   </div>
 
-  <!-- ৩. কিস্তি মুনাফা বণ্টন মোডাল -->
-  <div id="saleModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white w-full max-w-sm rounded-2xl p-5 shadow-2xl">
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="font-bold text-base text-slate-800">কিস্তি বিক্রি ও মুনাফা বণ্টন</h3>
-        <button onclick="closeModal('saleModal')" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <form onsubmit="handleProfitDistribution(event)" class="space-y-3">
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">পণ্যের বিবরণ / গ্রাহক</label>
-          <input type="text" id="productDesc" required placeholder="যেমন: ফ্যান কিস্তি বিক্রি" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">অর্জিত নিট লাভ (টাকা)</label>
-          <input type="number" id="profitAmount" min="1" required placeholder="বণ্টনযোগ্য নিট লাভ" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
-          <p class="text-[10px] text-slate-400 mt-1">* এই মুনাফা সকল সদস্যের মূলধনের অনুপাতে বণ্টন হয়ে তাদের হিসাবে স্বয়ংক্রিয়ভাবে জমা হবে।</p>
-        </div>
-        <button type="submit" class="w-full bg-emerald-600 text-white font-semibold py-2.5 rounded-lg text-xs mt-2 hover:bg-emerald-700">মুনাফা স্বয়ংক্রিয় বণ্টন করুন</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- ৪. নতুন সদস্য নিবন্ধন মোডাল -->
+  <!-- ৫. নতুন সদস্য নিবন্ধন মোডাল -->
   <div id="memberModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-sm rounded-2xl p-5 shadow-2xl">
       <div class="flex justify-between items-center mb-4">
@@ -387,6 +442,7 @@
 
     let currentUser = null;
     let membersList = [];
+    let salesList = [];
 
     // ১. লগইন
     async function handleLogin(e) {
@@ -402,10 +458,10 @@
 
       try {
         const docRef = await db.collection('members').doc(loginId).get();
-        if (!docRef.exists) throw new Error("এই আইডির কোনো সদস্য পাওয়া যায়নি!");
+        if (!docRef.exists) throw new Error("আইডি সঠিক নয়!");
 
         const data = docRef.data();
-        if (String(data.pin) !== String(loginPin)) throw new Error("ভুল পিন নম্বর! আবার চেষ্টা করুন।");
+        if (String(data.pin) !== String(loginPin)) throw new Error("ভুল পিন নম্বর!");
 
         currentUser = { id: docRef.id, ...data };
         initDashboard();
@@ -436,14 +492,15 @@
         document.getElementById('cashierActions').classList.remove('hidden');
         document.getElementById('approvalSection').classList.remove('hidden');
         document.getElementById('voucherHistorySection').classList.remove('hidden');
+        document.getElementById('salesLedgerSection').classList.remove('hidden');
         listenToApprovals();
         listenToAdminStats();
       } else if (currentUser.role === 'cashier') {
         roleBadge.innerText = 'ক্যাশিয়ার প্যানেল';
         roleTag.innerText = 'ক্যাশিয়ার';
         document.getElementById('cashierActions').classList.remove('hidden');
-        document.getElementById('cashierNotice').classList.remove('hidden');
         document.getElementById('voucherHistorySection').classList.remove('hidden');
+        document.getElementById('salesLedgerSection').classList.remove('hidden');
       } else {
         roleBadge.innerText = 'সদস্য ড্যাশবোর্ড';
         roleTag.innerText = 'সদস্য';
@@ -451,6 +508,7 @@
 
       listenToUserData();
       listenToMembersDropdown();
+      listenToSales();
       if (currentUser.role === 'admin' || currentUser.role === 'cashier') {
         listenToApprovedVouchers();
       }
@@ -468,7 +526,7 @@
       });
     }
 
-    // সদস্য ড্রপডাউন
+    // সদস্য তালিকা ড্রপডাউন
     function listenToMembersDropdown() {
       db.collection('members').onSnapshot(snap => {
         membersList = [];
@@ -481,6 +539,339 @@
           select.innerHTML += `<option value="${m.id}">${m.name} (${m.id})</option>`;
         });
       });
+    }
+
+    // কিস্তি বিক্রয় হিসাব পর্যবেক্ষণ
+    function listenToSales() {
+      db.collection('installment_sales').orderBy('createdAt', 'desc').onSnapshot(snap => {
+        salesList = [];
+        const tbody = document.getElementById('salesTableBody');
+        const select = document.getElementById('collectSaleSelect');
+        tbody.innerHTML = '';
+        select.innerHTML = '<option value="">হিসাব নির্বাচন করুন</option>';
+
+        snap.forEach(doc => {
+          const s = { id: doc.id, ...doc.data() };
+          salesList.push(s);
+
+          // রানিং সেল ড্রপডাউনে নেওয়া
+          if (s.dueAmount > 0) {
+            select.innerHTML += `<option value="${s.id}">${s.customerName} - ${s.productName} (বকেয়া: ৳${s.dueAmount})</option>`;
+          }
+
+          const tr = document.createElement('tr');
+          tr.className = "hover:bg-slate-50";
+          tr.innerHTML = `
+            <td class="py-2.5 px-4">
+              <p class="font-bold text-slate-800">${s.customerName}</p>
+              <p class="text-[10px] text-slate-400">${s.productName}</p>
+            </td>
+            <td class="py-2.5 px-4 text-right">৳ ${(s.investAmount || 0).toLocaleString('bn-BD')}</td>
+            <td class="py-2.5 px-4 text-right font-medium">৳ ${(s.saleAmount || 0).toLocaleString('bn-BD')}</td>
+            <td class="py-2.5 px-4 text-right text-emerald-600 font-bold">৳ ${(s.totalProfit || 0).toLocaleString('bn-BD')}</td>
+            <td class="py-2.5 px-4 text-right text-blue-600 font-medium">৳ ${(s.paidAmount || 0).toLocaleString('bn-BD')}</td>
+            <td class="py-2.5 px-4 text-right text-red-600 font-bold">৳ ${(s.dueAmount || 0).toLocaleString('bn-BD')}</td>
+            <td class="py-2.5 px-4 text-center">
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${s.dueAmount <= 0 ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
+                ${s.dueAmount <= 0 ? 'পরিশোধিত' : 'চলমান'}
+              </span>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      });
+    }
+
+    function updateDueHint() {
+      const saleId = document.getElementById('collectSaleSelect').value;
+      const hint = document.getElementById('saleDueHint');
+      const item = salesList.find(s => s.id === saleId);
+      if (item) {
+        hint.innerText = `অবশিষ্ট বকেয়া আছে: ৳ ${item.dueAmount} টাকা (মোট লাভ: ৳ ${item.totalProfit})`;
+      } else {
+        hint.innerText = '';
+      }
+    }
+
+    // ৩. নতুন কিস্তি বিক্রি সংরক্ষণ
+    async function handleNewSale(e) {
+      e.preventDefault();
+      const customer = document.getElementById('saleCustomerName').value.trim();
+      const product = document.getElementById('saleProductName').value.trim();
+      const invest = Number(document.getElementById('saleInvestAmount').value);
+      const sale = Number(document.getElementById('saleTotalAmount').value);
+
+      if (sale <= invest) {
+        alert("বিক্রয়মূল্য অবশ্যই মূল ইনভেস্ট বা কেনার দামের চেয়ে বেশি হতে হবে!");
+        return;
+      }
+
+      const profit = sale - invest;
+
+      try {
+        await db.collection('installment_sales').add({
+          customerName: customer,
+          productName: product,
+          investAmount: invest,
+          saleAmount: sale,
+          totalProfit: profit,
+          paidAmount: 0,
+          dueAmount: sale,
+          status: 'running',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        alert(`নতুন কিস্তি বিক্রি সফলভাবে যুক্ত হয়েছে!\nমোট মুনাফা হবে: ৳ ${profit} টাকা।`);
+        closeModal('newSaleModal');
+        document.getElementById('saleCustomerName').value = '';
+        document.getElementById('saleProductName').value = '';
+        document.getElementById('saleInvestAmount').value = '';
+        document.getElementById('saleTotalAmount').value = '';
+      } catch (err) {
+        alert("বিক্রি সংরক্ষণ ব্যর্থ: " + err.message);
+      }
+    }
+
+    // ৪. কিস্তি টাকা আদায় এন্ট্রি (ক্যাশিয়ার দিলে পেন্ডিং, এডমিন দিলে সরাসরি)
+    async function handleCollectInstallment(e) {
+      e.preventDefault();
+      const saleId = document.getElementById('collectSaleSelect').value;
+      const amount = Number(document.getElementById('collectAmount').value);
+
+      if (!saleId || amount <= 0) return;
+
+      const sale = salesList.find(s => s.id === saleId);
+      if (!sale) return;
+
+      if (amount > sale.dueAmount) {
+        alert(`বকেয়া আছে মাত্র ৳ ${sale.dueAmount} টাকা! এর চেয়ে বেশি কিস্তি নেওয়া সম্ভব নয়।`);
+        return;
+      }
+
+      const dateStr = new Date().toLocaleDateString('bn-BD');
+
+      try {
+        if (currentUser.role === 'admin') {
+          // এডমিন নিজে এন্ট্রি দিলে সরাসরি হিসাব সম্পন্ন
+          await processInstallmentApproval(saleId, amount);
+          alert("কিস্তির টাকা সরাসরি অনুমোদিত হয়ে সদস্যদের মাঝে মুনাফা বণ্টন হয়ে গেছে!");
+        } else {
+          // ক্যাশিয়ার দিলে এডমিন অনুমোদনে পাঠানো
+          await db.collection('pending_installments').add({
+            saleId: saleId,
+            customerName: sale.customerName,
+            productName: sale.productName,
+            amount: amount,
+            submittedBy: currentUser.name,
+            date: dateStr,
+            status: 'pending',
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          alert("কিস্তি আদায়ের এন্ট্রি সম্পন্ন হয়েছে! এডমিন অনুমোদন করার সাথে সাথে মূলধন ও মুনাফা সবার একাউন্টে যুক্ত হবে।");
+        }
+
+        closeModal('collectInstallmentModal');
+        document.getElementById('collectAmount').value = '';
+      } catch (err) {
+        alert("ত্রুটি: " + err.message);
+      }
+    }
+
+    // কিস্তি অনুমোদন ও আনুপাতিক মুনাফা বণ্টন ইঞ্জিনের মূল ফাংশন
+    async function processInstallmentApproval(saleId, amount) {
+      const saleRef = db.collection('installment_sales').doc(saleId);
+      const saleDoc = await saleRef.get();
+      if (!saleDoc.exists) throw new Error("হিসাব পাওয়া যায়নি!");
+      const sale = saleDoc.data();
+
+      // এই কিস্তিতে অর্জিত নিট মুনাফা হিসাব
+      const profitRatio = sale.totalProfit / sale.saleAmount;
+      const installmentProfit = Math.round(amount * profitRatio);
+      const installmentCapital = amount - installmentProfit;
+
+      // সকল সদস্যের মোট পুঁজি বের করা
+      const totalCapital = membersList.reduce((sum, m) => sum + Number(m.currentBalance || 0), 0);
+
+      const batch = db.batch();
+
+      // ১. কিস্তি বিক্রি ডকুমেন্টে বকেয়া আপডেট
+      const newPaid = Number(sale.paidAmount || 0) + amount;
+      const newDue = Number(sale.dueAmount || 0) - amount;
+      batch.update(saleRef, {
+        paidAmount: newPaid,
+        dueAmount: newDue,
+        status: newDue <= 0 ? 'completed' : 'running'
+      });
+
+      // ২. সদস্যদের মাঝে লাভ বণ্টন
+      if (totalCapital > 0 && installmentProfit > 0) {
+        membersList.forEach(m => {
+          const mBal = Number(m.currentBalance || 0);
+          if (mBal > 0) {
+            const memberProfitShare = Math.round((mBal / totalCapital) * installmentProfit);
+            const ref = db.collection('members').doc(m.id);
+            batch.update(ref, {
+              reinvestedProfit: (Number(m.reinvestedProfit) || 0) + memberProfitShare,
+              currentBalance: mBal + memberProfitShare
+            });
+          }
+        });
+      }
+
+      await batch.commit();
+    }
+
+    // ৫. অপেক্ষমাণ তালিকা লিসেনার (এডমিন অ্যাপ্রুভাল প্যানেল)
+    function listenToApprovals() {
+      // পেন্ডিং কিস্তি আদায়
+      db.collection('pending_installments').where('status', '==', 'pending').onSnapshot(snap => {
+        const list = document.getElementById('pendingInstallmentsList');
+        list.innerHTML = '';
+        if (snap.empty) {
+          list.innerHTML = '<p class="text-slate-400 text-xs italic">কোনো কিস্তি আদায় অপেক্ষমাণ নেই</p>';
+        } else {
+          snap.forEach(doc => {
+            const d = doc.data();
+            const div = document.createElement('div');
+            div.className = "bg-white p-3 rounded-xl border border-blue-200 flex items-center justify-between";
+            div.innerHTML = `
+              <div>
+                <p class="font-bold text-slate-800">${d.customerName} (${d.productName})</p>
+                <p class="text-[11px] text-blue-700 font-bold">আদায়কৃত কিস্তি: ৳ ${Number(d.amount).toLocaleString('bn-BD')}</p>
+                <p class="text-[10px] text-slate-400">ক্যাশিয়ার: ${d.submittedBy} | ${d.date}</p>
+              </div>
+              <div class="flex gap-1.5">
+                <button onclick="approveInstallment('${doc.id}', '${d.saleId}', ${d.amount})" class="bg-blue-600 text-white px-2.5 py-1 rounded-lg text-xs font-semibold hover:bg-blue-700">অনুমোদন</button>
+                <button onclick="rejectPending('pending_installments', '${doc.id}')" class="bg-red-50 text-red-600 border border-red-200 px-2 py-1 rounded-lg text-xs hover:bg-red-100">বাতিল</button>
+              </div>
+            `;
+            list.appendChild(div);
+          });
+        }
+        updatePendingBadge();
+      });
+
+      // পেন্ডিং সঞ্চয়
+      db.collection('pending_deposits').where('status', '==', 'pending').onSnapshot(snap => {
+        const list = document.getElementById('pendingDepositsList');
+        list.innerHTML = '';
+        if (snap.empty) {
+          list.innerHTML = '<p class="text-slate-400 text-xs italic">কোনো সঞ্চয় জমা অপেক্ষমাণ নেই</p>';
+        } else {
+          snap.forEach(doc => {
+            const d = doc.data();
+            const div = document.createElement('div');
+            div.className = "bg-white p-3 rounded-xl border border-teal-200 flex items-center justify-between";
+            div.innerHTML = `
+              <div>
+                <p class="font-bold text-slate-800">${d.memberName} (${d.memberId})</p>
+                <p class="text-[11px] text-teal-700 font-bold">সঞ্চয় জমা: ৳ ${Number(d.amount).toLocaleString('bn-BD')}</p>
+                <p class="text-[10px] text-slate-400">এন্ট্রিদাতা: ${d.submittedBy} | ${d.date}</p>
+              </div>
+              <div class="flex gap-1.5">
+                <button onclick="approveDeposit('${doc.id}', '${d.memberId}', ${d.amount})" class="bg-teal-600 text-white px-2.5 py-1 rounded-lg text-xs font-semibold hover:bg-teal-700">অনুমোদন</button>
+                <button onclick="rejectPending('pending_deposits', '${doc.id}')" class="bg-red-50 text-red-600 border border-red-200 px-2 py-1 rounded-lg text-xs hover:bg-red-100">বাতিল</button>
+              </div>
+            `;
+            list.appendChild(div);
+          });
+        }
+        updatePendingBadge();
+      });
+
+      // পেন্ডিং ভাউচার
+      db.collection('vouchers').where('status', '==', 'pending').onSnapshot(snap => {
+        const list = document.getElementById('pendingVouchersList');
+        list.innerHTML = '';
+        if (snap.empty) {
+          list.innerHTML = '<p class="text-slate-400 text-xs italic">কোনো ভাউচার অপেক্ষমাণ নেই</p>';
+        } else {
+          snap.forEach(doc => {
+            const v = doc.data();
+            const div = document.createElement('div');
+            div.className = "bg-white p-3 rounded-xl border border-amber-200 flex items-center justify-between";
+            div.innerHTML = `
+              <div>
+                <p class="font-bold text-slate-800">${v.reason}</p>
+                <p class="text-[11px] text-amber-700 font-bold">টাকা: ৳ ${Number(v.amount).toLocaleString('bn-BD')} (গ্রহীতা: ${v.receiver})</p>
+                <p class="text-[10px] text-slate-400">ক্যাশিয়ার: ${v.createdBy} | ${v.date}</p>
+              </div>
+              <div class="flex gap-1.5">
+                <button onclick="approveVoucher('${doc.id}')" class="bg-emerald-600 text-white px-2.5 py-1 rounded-lg text-xs font-semibold hover:bg-emerald-700">অনুমোদন</button>
+                <button onclick="rejectPending('vouchers', '${doc.id}')" class="bg-red-50 text-red-600 border border-red-200 px-2 py-1 rounded-lg text-xs hover:bg-red-100">বাতিল</button>
+              </div>
+            `;
+            list.appendChild(div);
+          });
+        }
+        updatePendingBadge();
+      });
+    }
+
+    function updatePendingBadge() {
+      Promise.all([
+        db.collection('pending_installments').where('status', '==', 'pending').get(),
+        db.collection('pending_deposits').where('status', '==', 'pending').get(),
+        db.collection('vouchers').where('status', '==', 'pending').get()
+      ]).then(([s0, s1, s2]) => {
+        const total = s0.size + s1.size + s2.size;
+        document.getElementById('pendingTotalCount').innerText = `${total.toLocaleString('bn-BD')} টি`;
+      });
+    }
+
+    // এডমিন কর্তৃক কিস্তি আদায় অনুমোদন
+    async function approveInstallment(docId, saleId, amount) {
+      if (!confirm(`৳ ${amount} টাকার কিস্তি অনুমোদন করতে চান? এটি অনুমোদন করলে কিস্তির নিট মুনাফা স্বয়ংক্রিয়ভাবে সদস্যদের মধ্যে বণ্টন হয়ে যাবে।`)) return;
+
+      try {
+        await processInstallmentApproval(saleId, amount);
+        await db.collection('pending_installments').doc(docId).update({ status: 'approved' });
+        alert("কিস্তি অনুমোদিত হয়েছে এবং প্রত্যেকের ব্যালেন্সে মুনাফা যোগ হয়েছে!");
+      } catch (err) {
+        alert("অনুমোদনে সমস্যা: " + err.message);
+      }
+    }
+
+    // এডমিন কর্তৃক সঞ্চয় অনুমোদন
+    async function approveDeposit(docId, memberId, amount) {
+      if (!confirm(`৳ ${amount} টাকার সঞ্চয় জমা অনুমোদন করতে চান?`)) return;
+
+      try {
+        const memberRef = db.collection('members').doc(memberId);
+        await db.runTransaction(async (t) => {
+          const doc = await t.get(memberRef);
+          if (!doc.exists) throw new Error("সদস্য পাওয়া যায়নি!");
+          const data = doc.data();
+          const newOwn = (Number(data.ownDeposits) || 0) + Number(amount);
+          const newBal = (Number(data.currentBalance) || 0) + Number(amount);
+          t.update(memberRef, { ownDeposits: newOwn, currentBalance: newBal });
+          t.update(db.collection('pending_deposits').doc(docId), { status: 'approved' });
+        });
+        alert("সঞ্চয় সফলভাবে অনুমোদিত হয়েছে!");
+      } catch (err) {
+        alert("অনুমোদনে সমস্যা: " + err.message);
+      }
+    }
+
+    // এডমিন কর্তৃক ভাউচার অনুমোদন
+    async function approveVoucher(docId) {
+      if (!confirm("এই ভাউচারটি অনুমোদন করতে চান?")) return;
+      try {
+        await db.collection('vouchers').doc(docId).update({ status: 'approved' });
+        alert("ভাউচার অনুমোদিত হয়েছে!");
+      } catch (err) {
+        alert("ত্রুটি: " + err.message);
+      }
+    }
+
+    async function rejectPending(collectionName, docId) {
+      if (!confirm("আপনি কি নিশ্চিতভাবে এই এন্ট্রিটি বাতিল করতে চান?")) return;
+      try {
+        await db.collection(collectionName).doc(docId).delete();
+        alert("এন্ট্রিটি সফলভাবে বাতিল করা হয়েছে।");
+      } catch (err) {
+        alert("বাতিল ব্যর্থ: " + err.message);
+      }
     }
 
     // এডমিন পরিসংখ্যান ও রোল পরিবর্তন টেবিল
@@ -538,28 +929,25 @@
       });
     }
 
-    // সদস্যকে ক্যাশিয়ার বানানো বা প্রত্যাহার করা
     async function toggleCashierRole(memberId, newRole) {
       const msg = newRole === 'cashier' 
-        ? "আপনি কি এই সদস্যকে 'ক্যাশিয়ার' পদবী দিতে চান? তিনি টাকা ও ভাউচার এন্ট্রি দিতে পারবেন।" 
-        : "আপনি কি এনার ক্যাশিয়ার পদবী প্রত্যাহার করে সাধারণ সদস্য করতে চান?";
-      
+        ? "এই সদস্যকে কি ক্যাশিয়ার বানাতে চান? তিনি কিস্তি আদায় ও ভাউচার এন্ট্রি দিতে পারবেন।" 
+        : "এই সদস্যের ক্যাশিয়ার পদবী প্রত্যাহার করতে চান?";
       if (!confirm(msg)) return;
 
       try {
         await db.collection('members').doc(memberId).update({ role: newRole });
-        alert("পদবী সফলভাবে পরিবর্তন করা হয়েছে!");
+        alert("পদবী সফলভাবে হালনাগাদ করা হয়েছে!");
       } catch (err) {
-        alert("পরিবর্তন ব্যর্থ: " + err.message);
+        alert("ব্যর্থ: " + err.message);
       }
     }
 
-    // ৩. সঞ্চয় জমা এন্ট্রি (এডমিন হলে সরাসরি জমা, ক্যাশিয়ার হলে পেন্ডিং)
+    // সঞ্চয় জমা হ্যান্ডলার
     async function handleDeposit(e) {
       e.preventDefault();
       const memberId = document.getElementById('depositMemberSelect').value;
       const amount = Number(document.getElementById('depositAmount').value);
-
       if (!memberId || amount <= 0) return;
 
       const member = membersList.find(m => m.id === memberId);
@@ -568,29 +956,27 @@
 
       try {
         if (currentUser.role === 'admin') {
-          // এডমিন সরাসরি অ্যাকাউন্টে যোগ করতে পারবে
           const memberRef = db.collection('members').doc(memberId);
           await db.runTransaction(async (t) => {
             const doc = await t.get(memberRef);
             const data = doc.data();
-            const newOwn = (Number(data.ownDeposits) || 0) + amount;
-            const newBal = (Number(data.currentBalance) || 0) + amount;
-            t.update(memberRef, { ownDeposits: newOwn, currentBalance: newBal });
+            t.update(memberRef, { 
+              ownDeposits: (Number(data.ownDeposits) || 0) + amount,
+              currentBalance: (Number(data.currentBalance) || 0) + amount 
+            });
           });
-          alert("এডমিন হিসেবে সঞ্চয় সরাসরি সফলভাবে জমা হয়েছে!");
+          alert("সঞ্চয় সরাসরি সফলভাবে জমা হয়েছে!");
         } else {
-          // ক্যাশিয়ার এন্ট্রি দিলে পেন্ডিং থাকবে
           await db.collection('pending_deposits').add({
             memberId: memberId,
             memberName: memberName,
             amount: amount,
             submittedBy: currentUser.name,
-            submittedById: currentUser.id,
             date: dateStr,
             status: 'pending',
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
           });
-          alert("সঞ্চয় এন্ট্রি সম্পন্ন হয়েছে! এডমিন অনুমোদন করার পর এটি সদস্যের অ্যাকাউন্টে জমা হবে।");
+          alert("সঞ্চয় এন্ট্রি সম্পন্ন হয়েছে! এডমিনের অনুমোদনের পর জমা হবে।");
         }
 
         closeModal('depositModal');
@@ -600,7 +986,7 @@
       }
     }
 
-    // ৪. ভাউচার এন্ট্রি (এডমিন সরাসরি, ক্যাশিয়ার পেন্ডিং)
+    // ভাউচার হ্যান্ডলার
     async function handleVoucher(e) {
       e.preventDefault();
       const reason = document.getElementById('voucherReason').value.trim();
@@ -617,18 +1003,12 @@
           amount: amount,
           receiver: receiver,
           createdBy: currentUser.name,
-          creatorRole: currentUser.role,
           date: dateStr,
           status: isPending ? 'pending' : 'approved',
           timestamp: firebase.firestore.FieldValue.serverTimestamp()
         });
 
-        if (isPending) {
-          alert("ভাউচারটি অনুমোদনের জন্য এডমিনের কাছে পাঠানো হয়েছে!");
-        } else {
-          alert("ভাউচার সরাসরি অনুমোদিত ও সংরক্ষিত হয়েছে!");
-        }
-
+        alert(isPending ? "ভাউচারটি অনুমোদনের জন্য এডমিনের কাছে পাঠানো হয়েছে!" : "ভাউচার সরাসরি অনুমোদিত হয়েছে!");
         closeModal('voucherModal');
         document.getElementById('voucherReason').value = '';
         document.getElementById('voucherAmount').value = '';
@@ -638,136 +1018,12 @@
       }
     }
 
-    // ৫. অপেক্ষমাণ তালিকা লিসেনার (এডমিন অ্যাপ্রুভাল প্যানেল)
-    function listenToApprovals() {
-      // পেন্ডিং জমা
-      db.collection('pending_deposits').where('status', '==', 'pending').onSnapshot(snap => {
-        const list = document.getElementById('pendingDepositsList');
-        list.innerHTML = '';
-        if (snap.empty) {
-          list.innerHTML = '<p class="text-slate-400 text-xs italic">কোনো সঞ্চয় জমা অপেক্ষমাণ নেই</p>';
-        } else {
-          snap.forEach(doc => {
-            const d = doc.data();
-            const div = document.createElement('div');
-            div.className = "bg-white p-3 rounded-xl border border-amber-200 flex items-center justify-between";
-            div.innerHTML = `
-              <div>
-                <p class="font-bold text-slate-800">${d.memberName} (${d.memberId})</p>
-                <p class="text-[11px] text-teal-700 font-bold">৳ ${Number(d.amount).toLocaleString('bn-BD')}</p>
-                <p class="text-[10px] text-slate-400">এন্ট্রিদাতা: ${d.submittedBy} | ${d.date}</p>
-              </div>
-              <div class="flex gap-1.5">
-                <button onclick="approveDeposit('${doc.id}', '${d.memberId}', ${d.amount})" class="bg-teal-600 text-white px-2.5 py-1 rounded-lg text-xs font-semibold hover:bg-teal-700">অনুমোদন</button>
-                <button onclick="rejectDeposit('${doc.id}')" class="bg-red-50 text-red-600 border border-red-200 px-2 py-1 rounded-lg text-xs hover:bg-red-100">বাতিল</button>
-              </div>
-            `;
-            list.appendChild(div);
-          });
-        }
-        updatePendingBadge();
-      });
-
-      // পেন্ডিং ভাউচার
-      db.collection('vouchers').where('status', '==', 'pending').onSnapshot(snap => {
-        const list = document.getElementById('pendingVouchersList');
-        list.innerHTML = '';
-        if (snap.empty) {
-          list.innerHTML = '<p class="text-slate-400 text-xs italic">কোনো ভাউচার অপেক্ষমাণ নেই</p>';
-        } else {
-          snap.forEach(doc => {
-            const v = doc.data();
-            const div = document.createElement('div');
-            div.className = "bg-white p-3 rounded-xl border border-amber-200 flex items-center justify-between";
-            div.innerHTML = `
-              <div>
-                <p class="font-bold text-slate-800">${v.reason}</p>
-                <p class="text-[11px] text-amber-700 font-bold">৳ ${Number(v.amount).toLocaleString('bn-BD')} (গ্রহীতা: ${v.receiver})</p>
-                <p class="text-[10px] text-slate-400">ক্যাশিয়ার: ${v.createdBy} | ${v.date}</p>
-              </div>
-              <div class="flex gap-1.5">
-                <button onclick="approveVoucher('${doc.id}')" class="bg-emerald-600 text-white px-2.5 py-1 rounded-lg text-xs font-semibold hover:bg-emerald-700">অনুমোদন</button>
-                <button onclick="rejectVoucher('${doc.id}')" class="bg-red-50 text-red-600 border border-red-200 px-2 py-1 rounded-lg text-xs hover:bg-red-100">বাতিল</button>
-              </div>
-            `;
-            list.appendChild(div);
-          });
-        }
-        updatePendingBadge();
-      });
-    }
-
-    function updatePendingBadge() {
-      // পেন্ডিং কাউন্ট আপডেট
-      db.collection('pending_deposits').where('status', '==', 'pending').get().then(s1 => {
-        db.collection('vouchers').where('status', '==', 'pending').get().then(s2 => {
-          const total = s1.size + s2.size;
-          document.getElementById('pendingTotalCount').innerText = `${total.toLocaleString('bn-BD')} টি`;
-        });
-      });
-    }
-
-    // এডমিন কর্তৃক সঞ্চয় অনুমোদন
-    async function approveDeposit(docId, memberId, amount) {
-      if (!confirm(`৳ ${amount} টাকার সঞ্চয় জমা অনুমোদন করতে চান?`)) return;
-
-      try {
-        const memberRef = db.collection('members').doc(memberId);
-        await db.runTransaction(async (t) => {
-          const doc = await t.get(memberRef);
-          if (!doc.exists) throw new Error("সদস্য পাওয়া যায়নি!");
-          const data = doc.data();
-          const newOwn = (Number(data.ownDeposits) || 0) + Number(amount);
-          const newBal = (Number(data.currentBalance) || 0) + Number(amount);
-          t.update(memberRef, { ownDeposits: newOwn, currentBalance: newBal });
-          t.update(db.collection('pending_deposits').doc(docId), { status: 'approved' });
-        });
-        alert("সঞ্চয় জমা সফলভাবে অনুমোদিত হয়েছে!");
-      } catch (err) {
-        alert("অনুমোদনে সমস্যা: " + err.message);
-      }
-    }
-
-    // সঞ্চয় বাতিল
-    async function rejectDeposit(docId) {
-      if (!confirm("এই এন্ট্রিটি বাতিল করতে চান?")) return;
-      try {
-        await db.collection('pending_deposits').doc(docId).delete();
-        alert("এন্ট্রিটি বাতিল করা হয়েছে।");
-      } catch (err) {
-        alert("বাতিল ব্যর্থ: " + err.message);
-      }
-    }
-
-    // এডমিন কর্তৃক ভাউচার অনুমোদন
-    async function approveVoucher(docId) {
-      if (!confirm("এই খরচের ভাউচারটি অনুমোদন করতে চান?")) return;
-      try {
-        await db.collection('vouchers').doc(docId).update({ status: 'approved' });
-        alert("ভাউচার অনুমোদিত হয়েছে!");
-      } catch (err) {
-        alert("ত্রুটি: " + err.message);
-      }
-    }
-
-    // ভাউচার বাতিল
-    async function rejectVoucher(docId) {
-      if (!confirm("এই ভাউচারটি বাতিল করতে চান?")) return;
-      try {
-        await db.collection('vouchers').doc(docId).delete();
-        alert("ভাউচারটি বাতিল করা হয়েছে।");
-      } catch (err) {
-        alert("ত্রুটি: " + err.message);
-      }
-    }
-
-    // অনুমোদিত ভাউচার তালিকা প্রদর্শন
     function listenToApprovedVouchers() {
       db.collection('vouchers').where('status', '==', 'approved').limit(15).onSnapshot(snap => {
         const tbody = document.getElementById('voucherTableBody');
         tbody.innerHTML = '';
         if (snap.empty) {
-          tbody.innerHTML = '<tr><td colspan="4" class="text-center py-3 text-slate-400">কোনো অনুমোদিত ভাউচার পাওয়া যায়নি</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="4" class="text-center py-3 text-slate-400">কোনো অনুমোদিত ভাউচার নেই</td></tr>';
           return;
         }
         snap.forEach(doc => {
@@ -785,47 +1041,6 @@
       });
     }
 
-    // কিস্তি মুনাফা আনুপাতিক বণ্টন (শুধু এডমিন)
-    async function handleProfitDistribution(e) {
-      e.preventDefault();
-      const profit = Number(document.getElementById('profitAmount').value);
-      if (profit <= 0) return;
-
-      const totalCapital = membersList.reduce((sum, m) => sum + Number(m.currentBalance || 0), 0);
-      if (totalCapital <= 0) {
-        alert("সমিতির মোট মূলধন শূন্য থাকায় মুনাফা বণ্টন সম্ভব নয়!");
-        return;
-      }
-
-      if (!confirm(`মোট ৳ ${profit} টাকা সকল সদস্যের বর্তমান মূলধনের অনুপাতে বণ্টন করা হবে। আপনি কি নিশ্চিত?`)) {
-        return;
-      }
-
-      try {
-        const batch = db.batch();
-        membersList.forEach(m => {
-          const mBal = Number(m.currentBalance || 0);
-          if (mBal > 0) {
-            const memberShare = Math.round((mBal / totalCapital) * profit);
-            const ref = db.collection('members').doc(m.id);
-            batch.update(ref, {
-              reinvestedProfit: (Number(m.reinvestedProfit) || 0) + memberShare,
-              currentBalance: mBal + memberShare
-            });
-          }
-        });
-
-        await batch.commit();
-        alert("মুনাফা সফলভাবে বণ্টন ও রি-ইনভেস্ট করা হয়েছে!");
-        closeModal('saleModal');
-        document.getElementById('productDesc').value = '';
-        document.getElementById('profitAmount').value = '';
-      } catch (err) {
-        alert("বণ্টনে সমস্যা হয়েছে: " + err.message);
-      }
-    }
-
-    // নতুন সদস্য নিবন্ধন (শুধু এডমিন)
     async function handleCreateMember(e) {
       e.preventDefault();
       const name = document.getElementById('newMemberName').value.trim();
@@ -837,7 +1052,7 @@
         const docRef = db.collection('members').doc(id);
         const check = await docRef.get();
         if (check.exists) {
-          alert("এই আইডিটি আগেই ব্যবহার করা হয়েছে! অন্য আইডি দিন।");
+          alert("এই আইডিটি আগেই ব্যবহার করা হয়েছে!");
           return;
         }
 
@@ -857,7 +1072,7 @@
         document.getElementById('newMemberPin').value = '';
         document.getElementById('newMemberInitDeposit').value = '0';
       } catch (err) {
-        alert("সংরক্ষণ ব্যর্থ: " + err.message);
+        alert("সদস্য যোগ করতে ব্যর্থ: " + err.message);
       }
     }
 
