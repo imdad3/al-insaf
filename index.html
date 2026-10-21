@@ -139,7 +139,7 @@
               <i class="fa-solid fa-cart-plus"></i>
             </div>
             <p class="text-xs font-bold text-slate-800">নতুন কিস্তি বিক্রি</p>
-            <p class="text-[10px] text-slate-400">পণ্য, ইনভেস্ট ও বিক্রয়</p>
+            <p class="text-[10px] text-slate-400">তৎকালীন পুঁজিতে বিক্রয়</p>
           </button>
 
           <!-- ৩. কিস্তি আদায় -->
@@ -175,7 +175,7 @@
 
           <!-- কিস্তি আদায়ের অনুমোদন -->
           <div class="space-y-2 mb-3">
-            <p class="text-xs font-bold text-blue-900">কিস্তি আদায় অনুমোদন (অনুমোদনে অটো মুনাফা বণ্টন হবে):</p>
+            <p class="text-xs font-bold text-blue-900">কিস্তি আদায় অনুমোদন (বিক্রয়কালীন অনুপাতে মুনাফা বণ্টন হবে):</p>
             <div id="pendingInstallmentsList" class="space-y-2 text-xs">
               <p class="text-slate-400 text-xs italic">কোনো কিস্তি আদায় অপেক্ষমাণ নেই</p>
             </div>
@@ -215,7 +215,7 @@
                 <th class="py-3 px-4 text-right">মোট লাভ</th>
                 <th class="py-3 px-4 text-right">আদায়কৃত</th>
                 <th class="py-3 px-4 text-right">বকেয়া</th>
-                <th class="py-3 px-4 text-center">অবস্থা</th>
+                <th class="py-3 px-4 text-center">বিনিয়োগ শেয়ার</th>
                 <th class="py-3 px-4 text-center admin-only-col">অ্যাকশন</th>
               </tr>
             </thead>
@@ -226,7 +226,6 @@
 
       <!-- এডমিন ড্যাশবোর্ড ও সদস্য ব্যবস্থাপনা -->
       <div id="adminPanel" class="hidden space-y-5">
-        <!-- সমিতির সর্বমোট পরিসংখ্যান -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
           <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
             <p class="text-xs text-slate-500 font-medium">সমিতির মোট পুঁজি</p>
@@ -246,7 +245,6 @@
           </div>
         </div>
 
-        <!-- সদস্য তালিকা টেবিল (এডিট ও ক্যাশিয়ার সুইচসহ) -->
         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
           <div class="px-5 py-3 border-b border-slate-100 flex items-center justify-between">
             <h3 class="font-bold text-slate-800 text-sm">সকল সদস্যের মূলধন ও নিয়ন্ত্রণ</h3>
@@ -300,7 +298,20 @@
 
   <!-- ==================== মোডালসমূহ ==================== -->
 
-  <!-- ১. সদস্য তথ্য ও সঞ্চয় হিসাব এডিট মোডাল (নতুন) -->
+  <!-- বিক্রয়কালীন শেয়ারহোল্ডার দেখার মোডাল (নতুন) -->
+  <div id="investorsShareModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-sm rounded-2xl p-5 shadow-2xl">
+      <div class="flex justify-between items-center mb-3">
+        <h3 class="font-bold text-base text-slate-800">বিক্রয়কালীন বিনিয়োগকারী শেয়ার</h3>
+        <button onclick="closeModal('investorsShareModal')" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <p id="shareProductTitle" class="text-xs text-slate-500 mb-3"></p>
+      <div class="max-h-60 overflow-y-auto space-y-1.5" id="investorsShareList"></div>
+      <button type="button" onclick="closeModal('investorsShareModal')" class="w-full bg-slate-100 text-slate-700 font-semibold py-2 rounded-lg text-xs mt-4">বন্ধ করুন</button>
+    </div>
+  </div>
+
+  <!-- সদস্য তথ্য ও সঞ্চয় হিসাব এডিট মোডাল -->
   <div id="editMemberModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-sm rounded-2xl p-5 shadow-2xl">
       <div class="flex justify-between items-center mb-4">
@@ -334,7 +345,7 @@
     </div>
   </div>
 
-  <!-- ২. কিস্তি বিক্রি খতিয়ান এডিট মোডাল (নতুন) -->
+  <!-- কিস্তি বিক্রি খতিয়ান এডিট মোডাল -->
   <div id="editSaleModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-sm rounded-2xl p-5 shadow-2xl">
       <div class="flex justify-between items-center mb-4">
@@ -368,7 +379,7 @@
     </div>
   </div>
 
-  <!-- ৩. নতুন কিস্তি বিক্রি মোডাল -->
+  <!-- নতুন কিস্তি বিক্রি মোডাল -->
   <div id="newSaleModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-sm rounded-2xl p-5 shadow-2xl">
       <div class="flex justify-between items-center mb-4">
@@ -392,12 +403,15 @@
           <label class="block text-xs font-semibold text-slate-600 mb-1">বিক্রিত পণ্যের বিক্রয় মূল্য (টাকা)</label>
           <input type="number" id="saleTotalAmount" min="1" required placeholder="সর্বমোট কিস্তির বিক্রয়মূল্য" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
         </div>
+        <p class="text-[10px] text-slate-500 bg-slate-50 p-2 rounded border border-slate-200">
+          * বিক্রির মুহূর্তে সমিতির ফান্ডে প্রতিটি সদস্যের যে মূলধন রয়েছে, ঠিক সেই অনুপাতে স্থায়ীভাবে তাদের শেয়ার স্ন্যাপশট সংরক্ষিত হবে।
+        </p>
         <button type="submit" class="w-full bg-emerald-600 text-white font-semibold py-2.5 rounded-lg text-xs mt-2 hover:bg-emerald-700">বিক্রি হিসাব সংরক্ষণ করুন</button>
       </form>
     </div>
   </div>
 
-  <!-- ৪. কিস্তি আদায় মোডাল -->
+  <!-- কিস্তি আদায় মোডাল -->
   <div id="collectInstallmentModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-sm rounded-2xl p-5 shadow-2xl">
       <div class="flex justify-between items-center mb-4">
@@ -413,14 +427,14 @@
         <div>
           <label class="block text-xs font-semibold text-slate-600 mb-1">আজকে প্রাপ্ত কিস্তির টাকা</label>
           <input type="number" id="collectAmount" min="1" required placeholder="কিস্তির পরিমাণ" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
-          <p class="text-[10px] text-slate-400 mt-1">* কিস্তি আদায় অনুমোদিত হলে মূলধন ও মুনাফা স্বয়ংক্রিয়ভাবে বণ্টন হয়ে যাবে।</p>
+          <p class="text-[10px] text-slate-400 mt-1">* কিস্তি আদায় অনুমোদিত হলে পণ্য বিক্রির সময়কার বিনিয়োগকারীদের মাঝে আনুপাতিক মুনাফা বণ্টন হবে।</p>
         </div>
         <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-2.5 rounded-lg text-xs mt-2 hover:bg-blue-700">কিস্তি জমা এন্ট্রি দিন</button>
       </form>
     </div>
   </div>
 
-  <!-- ৫. মাসিক সঞ্চয় জমা মোডাল -->
+  <!-- মাসিক সঞ্চয় জমা মোডাল -->
   <div id="depositModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-sm rounded-2xl p-5 shadow-2xl">
       <div class="flex justify-between items-center mb-4">
@@ -441,7 +455,7 @@
     </div>
   </div>
 
-  <!-- ৬. ভাউচার মোডাল -->
+  <!-- ভাউচার মোডাল -->
   <div id="voucherModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-sm rounded-2xl p-5 shadow-2xl">
       <div class="flex justify-between items-center mb-4">
@@ -466,7 +480,7 @@
     </div>
   </div>
 
-  <!-- ৭. নতুন সদস্য নিবন্ধন মোডাল -->
+  <!-- নতুন সদস্য নিবন্ধন মোডাল -->
   <div id="memberModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-sm rounded-2xl p-5 shadow-2xl">
       <div class="flex justify-between items-center mb-4">
@@ -652,9 +666,9 @@
             <td class="py-2.5 px-4 text-right text-blue-600 font-medium">৳ ${(s.paidAmount || 0).toLocaleString('bn-BD')}</td>
             <td class="py-2.5 px-4 text-right text-red-600 font-bold">৳ ${(s.dueAmount || 0).toLocaleString('bn-BD')}</td>
             <td class="py-2.5 px-4 text-center">
-              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${s.dueAmount <= 0 ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
-                ${s.dueAmount <= 0 ? 'পরিশোধিত' : 'চলমান'}
-              </span>
+              <button onclick="viewInvestorsShare('${s.id}')" class="bg-teal-50 hover:bg-teal-100 text-teal-700 border border-teal-200 px-2 py-0.5 rounded text-[10px] font-semibold">
+                শেয়ার দেখুন
+              </button>
             </td>
             <td class="py-2.5 px-4 text-center">${actionButtons}</td>
           `;
@@ -674,7 +688,7 @@
       }
     }
 
-    // ৩. নতুন কিস্তি বিক্রি সংরক্ষণ
+    // ৩. নতুন কিস্তি বিক্রি সংরক্ষণ (বিক্রয়কালীন শেয়ার স্ন্যাপশটসহ)
     async function handleNewSale(e) {
       e.preventDefault();
       const customer = document.getElementById('saleCustomerName').value.trim();
@@ -683,9 +697,29 @@
       const sale = Number(document.getElementById('saleTotalAmount').value);
 
       if (sale <= invest) {
-        alert("বিক্রয়মূল্য অবশ্যই মূল ইনভেস্ট বা কেনার দামের চেয়ে বেশি হতে হবে!");
+        alert("বিক্রয়মূল্য অবশ্যই মূল ইনভেস্টের চেয়ে বেশি হতে হবে!");
         return;
       }
+
+      // সমিতির তৎকালীন মোট পুঁজি হিসাব
+      const totalCapitalAtSale = membersList.reduce((sum, m) => sum + Number(m.currentBalance || 0), 0);
+      if (totalCapitalAtSale <= 0) {
+        alert("সমিতির মোট ফান্ড বা মূলধন শূন্য থাকায় ইনভেস্ট করা সম্ভব নয়!");
+        return;
+      }
+
+      // প্রতিটি সদস্যের তৎকালীন পুঁজির স্ন্যাপশট ও অনুপাত সংরক্ষণ
+      const investorsSnapshot = membersList
+        .filter(m => Number(m.currentBalance || 0) > 0)
+        .map(m => {
+          const cap = Number(m.currentBalance || 0);
+          return {
+            id: m.id,
+            name: m.name,
+            capitalAtSale: cap,
+            ratio: cap / totalCapitalAtSale
+          };
+        });
 
       const profit = sale - invest;
 
@@ -698,11 +732,13 @@
           totalProfit: profit,
           paidAmount: 0,
           dueAmount: sale,
+          totalCapitalAtSale: totalCapitalAtSale,
+          investorsSnapshot: investorsSnapshot,
           status: 'running',
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
 
-        alert(`নতুন কিস্তি বিক্রি সফলভাবে যুক্ত হয়েছে!\nমোট মুনাফা হবে: ৳ ${profit} টাকা।`);
+        alert(`নতুন কিস্তি বিক্রি সফলভাবে যুক্ত হয়েছে!\nবিক্রয়কালীন ফান্ড অনুযায়ী সদস্যদের শেয়ার স্থায়ীভাবে লক করা হয়েছে।`);
         closeModal('newSaleModal');
         document.getElementById('saleCustomerName').value = '';
         document.getElementById('saleProductName').value = '';
@@ -711,6 +747,36 @@
       } catch (err) {
         alert("বিক্রি সংরক্ষণ ব্যর্থ: " + err.message);
       }
+    }
+
+    // বিক্রয়কালীন শেয়ার দেখার পপআপ
+    function viewInvestorsShare(saleId) {
+      const sale = salesList.find(s => s.id === saleId);
+      if (!sale) return;
+
+      document.getElementById('shareProductTitle').innerText = `${sale.customerName} - ${sale.productName} (মোট ইনভেস্ট ফান্ড: ৳${sale.totalCapitalAtSale || 'তৎকালীন ফান্ড'})`;
+      const list = document.getElementById('investorsShareList');
+      list.innerHTML = '';
+
+      if (sale.investorsSnapshot && sale.investorsSnapshot.length > 0) {
+        sale.investorsSnapshot.forEach(inv => {
+          const pct = (inv.ratio * 100).toFixed(1);
+          const div = document.createElement('div');
+          div.className = "flex justify-between items-center bg-slate-50 p-2 rounded border border-slate-200 text-xs";
+          div.innerHTML = `
+            <div>
+              <p class="font-bold text-slate-800">${inv.name}</p>
+              <p class="text-[10px] text-slate-400">তৎকালীন পুঁজি: ৳${(inv.capitalAtSale || 0).toLocaleString('bn-BD')}</p>
+            </div>
+            <span class="font-bold text-teal-700 bg-teal-100 px-2 py-0.5 rounded text-[11px]">${pct}%</span>
+          `;
+          list.appendChild(div);
+        });
+      } else {
+        list.innerHTML = '<p class="text-xs text-slate-400 text-center py-2">এই পুরোনো রেকর্ডে স্ন্যাপশট সংরক্ষিত ছিল না</p>';
+      }
+
+      openModal('investorsShareModal');
     }
 
     // ৪. কিস্তি টাকা আদায় এন্ট্রি
@@ -734,7 +800,7 @@
       try {
         if (currentUser.role === 'admin') {
           await processInstallmentApproval(saleId, amount);
-          alert("কিস্তির টাকা সরাসরি অনুমোদিত হয়ে সদস্যদের মাঝে মুনাফা বণ্টন হয়ে গেছে!");
+          alert("কিস্তির টাকা সরাসরি অনুমোদিত হয়ে তৎকালীন মূলধনের অনুপাতে সদস্যদের মাঝে মুনাফা বণ্টন হয়ে গেছে!");
         } else {
           await db.collection('pending_installments').add({
             saleId: saleId,
@@ -746,7 +812,7 @@
             status: 'pending',
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
           });
-          alert("কিস্তি আদায়ের এন্ট্রি সম্পন্ন হয়েছে! এডমিন অনুমোদন করার সাথে সাথে মূলধন ও মুনাফা সবার একাউন্টে যুক্ত হবে।");
+          alert("কিস্তি আদায়ের এন্ট্রি সম্পন্ন হয়েছে! এডমিন অনুমোদন করার সাথে সাথে তৎকালীন বিনিয়োগকারীদের মধ্যে মুনাফা জমা হবে।");
         }
 
         closeModal('collectInstallmentModal');
@@ -756,19 +822,20 @@
       }
     }
 
+    // মূল কিস্তি অনুমোদন ও স্ন্যাপশট ভিত্তিক মুনাফা বণ্টন ফাংশন
     async function processInstallmentApproval(saleId, amount) {
       const saleRef = db.collection('installment_sales').doc(saleId);
       const saleDoc = await saleRef.get();
       if (!saleDoc.exists) throw new Error("হিসাব পাওয়া যায়নি!");
       const sale = saleDoc.data();
 
+      // এই কিস্তির নিট মুনাফা বের করা
       const profitRatio = sale.totalProfit / sale.saleAmount;
       const installmentProfit = Math.round(amount * profitRatio);
 
-      const totalCapital = membersList.reduce((sum, m) => sum + Number(m.currentBalance || 0), 0);
-
       const batch = db.batch();
 
+      // ১. বিক্রয় খতিয়ানে বকেয়া ও আদায় আপডেট
       const newPaid = Number(sale.paidAmount || 0) + amount;
       const newDue = Number(sale.dueAmount || 0) - amount;
       batch.update(saleRef, {
@@ -777,18 +844,38 @@
         status: newDue <= 0 ? 'completed' : 'running'
       });
 
-      if (totalCapital > 0 && installmentProfit > 0) {
-        membersList.forEach(m => {
-          const mBal = Number(m.currentBalance || 0);
-          if (mBal > 0) {
-            const memberProfitShare = Math.round((mBal / totalCapital) * installmentProfit);
-            const ref = db.collection('members').doc(m.id);
-            batch.update(ref, {
-              reinvestedProfit: (Number(m.reinvestedProfit) || 0) + memberProfitShare,
-              currentBalance: mBal + memberProfitShare
+      // ২. তৎকালীন স্ন্যাপশট অনুযায়ী শুধু সেই সময়ের বিনিয়োগকারীদের মধ্যে মুনাফা বণ্টন
+      if (installmentProfit > 0) {
+        if (sale.investorsSnapshot && Array.isArray(sale.investorsSnapshot) && sale.investorsSnapshot.length > 0) {
+          sale.investorsSnapshot.forEach(inv => {
+            if (inv.ratio > 0) {
+              const memberProfitShare = Math.round(inv.ratio * installmentProfit);
+              if (memberProfitShare > 0) {
+                const memberRef = db.collection('members').doc(inv.id);
+                batch.update(memberRef, {
+                  reinvestedProfit: firebase.firestore.FieldValue.increment(memberProfitShare),
+                  currentBalance: firebase.firestore.FieldValue.increment(memberProfitShare)
+                });
+              }
+            }
+          });
+        } else {
+          // পুরোনো কোনো বিক্রয়ে স্ন্যাপশট না থাকলে বর্তমান সদস্য অনুপাতে ফলব্যাক
+          const totalCapital = membersList.reduce((sum, m) => sum + Number(m.currentBalance || 0), 0);
+          if (totalCapital > 0) {
+            membersList.forEach(m => {
+              const mBal = Number(m.currentBalance || 0);
+              if (mBal > 0) {
+                const memberProfitShare = Math.round((mBal / totalCapital) * installmentProfit);
+                const ref = db.collection('members').doc(m.id);
+                batch.update(ref, {
+                  reinvestedProfit: firebase.firestore.FieldValue.increment(memberProfitShare),
+                  currentBalance: firebase.firestore.FieldValue.increment(memberProfitShare)
+                });
+              }
             });
           }
-        });
+        }
       }
 
       await batch.commit();
@@ -890,12 +977,12 @@
     }
 
     async function approveInstallment(docId, saleId, amount) {
-      if (!confirm(`৳ ${amount} টাকার কিস্তি অনুমোদন করতে চান? এটি অনুমোদন করলে কিস্তির নিট মুনাফা স্বয়ংক্রিয়ভাবে বণ্টন হয়ে যাবে।`)) return;
+      if (!confirm(`৳ ${amount} টাকার কিস্তি অনুমোদন করতে চান? এটি অনুমোদন করলে বিক্রয়কালীন অনুপাতে মূলধনে স্বয়ংক্রিয় মুনাফা বণ্টন হয়ে যাবে।`)) return;
 
       try {
         await processInstallmentApproval(saleId, amount);
         await db.collection('pending_installments').doc(docId).update({ status: 'approved' });
-        alert("কিস্তি অনুমোদিত হয়েছে এবং প্রত্যেকের ব্যালেন্সে মুনাফা যোগ হয়েছে!");
+        alert("কিস্তি সফলভাবে অনুমোদিত হয়েছে এবং তৎকালীন বিনিয়োগকারীদের হিসাবে মুনাফা বণ্টন হয়েছে!");
       } catch (err) {
         alert("অনুমোদনে সমস্যা: " + err.message);
       }
@@ -1002,7 +1089,7 @@
       });
     }
 
-    // ================= সদস্য এডিট ফাংশনসমূহ =================
+    // সদস্য এডিট
     function openEditMemberModal(memberId) {
       const member = membersList.find(m => m.id === memberId);
       if (!member) return;
@@ -1048,7 +1135,7 @@
       }
     }
 
-    // ================= কিস্তি বিক্রি এডিট ও ডিলিট =================
+    // কিস্তি বিক্রি এডিট ও ডিলিট
     function openEditSaleModal(saleId) {
       const sale = salesList.find(s => s.id === saleId);
       if (!sale) return;
@@ -1137,7 +1224,6 @@
       }
     }
 
-    // সঞ্চয় জমা হ্যান্ডলার
     async function handleDeposit(e) {
       e.preventDefault();
       const memberId = document.getElementById('depositMemberSelect').value;
@@ -1180,7 +1266,6 @@
       }
     }
 
-    // ভাউচার হ্যান্ডলার
     async function handleVoucher(e) {
       e.preventDefault();
       const reason = document.getElementById('voucherReason').value.trim();
