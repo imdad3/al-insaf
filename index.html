@@ -4,32 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>আল ইনসাফ সঞ্চয় প্রকল্প</title>
-  
   <meta name="theme-color" content="#0d9488">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="আল ইনসাফ">
-  
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
-
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-
-  <style>
-    body {
-      font-family: 'Hind Siliguri', sans-serif;
-      -webkit-tap-highlight-color: transparent;
-    }
-  </style>
+  <style>body { font-family: 'Hind Siliguri', sans-serif; -webkit-tap-highlight-color: transparent; }</style>
 </head>
 <body class="bg-slate-100 min-h-screen text-slate-800 antialiased selection:bg-teal-500 selection:text-white">
 
-  <!-- ==================== ১. লগইন স্ক্রিন ==================== -->
+  <!-- ১. লগইন স্ক্রিন -->
   <div id="loginSection" class="min-h-screen flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-md rounded-3xl shadow-xl p-6 sm:p-8 border border-slate-200">
       <div class="text-center mb-8">
@@ -44,42 +31,29 @@
         <div>
           <label class="block text-xs font-semibold text-slate-600 mb-1">সদস্য / ক্যাশিয়ার আইডি</label>
           <div class="relative">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
-              <i class="fa-solid fa-user"></i>
-            </span>
-            <input type="text" id="loginId" required placeholder="যেমন: admin বা সদস্য আইডি" 
-                   class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400"><i class="fa-solid fa-user"></i></span>
+            <input type="text" id="loginId" required placeholder="admin বা সদস্য আইডি" class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500">
           </div>
         </div>
-
         <div>
           <label class="block text-xs font-semibold text-slate-600 mb-1">গোপন পিন (PIN)</label>
           <div class="relative">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
-              <i class="fa-solid fa-lock"></i>
-            </span>
-            <input type="password" id="loginPin" required maxlength="6" placeholder="৪ সংখ্যার পিন" 
-                   class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400"><i class="fa-solid fa-lock"></i></span>
+            <input type="password" id="loginPin" required maxlength="6" placeholder="৪ সংখ্যার পিন" class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500">
           </div>
         </div>
-
-        <button type="submit" id="loginBtn" 
-                class="w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3.5 rounded-xl shadow-lg shadow-teal-600/30 transition duration-200">
-          প্রবেশ করুন
-        </button>
+        <button type="submit" id="loginBtn" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3.5 rounded-xl shadow-lg shadow-teal-600/30 transition duration-200">প্রবেশ করুন</button>
       </form>
       <div id="loginError" class="hidden mt-4 text-xs text-red-600 bg-red-50 p-3 rounded-lg text-center font-medium"></div>
     </div>
   </div>
 
-  <!-- ==================== ২. মূল ড্যাশবোর্ড ==================== -->
+  <!-- ২. মূল ড্যাশবোর্ড -->
   <div id="appSection" class="hidden min-h-screen pb-20">
     <header class="bg-teal-700 text-white sticky top-0 z-30 shadow-md">
       <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
         <div class="flex items-center space-x-3">
-          <div class="w-10 h-10 rounded-xl bg-teal-800 flex items-center justify-center text-lg">
-            <i class="fa-solid fa-scale-balanced"></i>
-          </div>
+          <div class="w-10 h-10 rounded-xl bg-teal-800 flex items-center justify-center text-lg"><i class="fa-solid fa-scale-balanced"></i></div>
           <div>
             <h2 class="font-bold text-base leading-tight">আল ইনসাফ</h2>
             <p id="userRoleBadge" class="text-[10px] text-teal-200 uppercase font-semibold tracking-wider"></p>
@@ -93,7 +67,7 @@
     </header>
 
     <main class="max-w-4xl mx-auto p-4 space-y-5">
-      <!-- ব্যক্তিগত একাউন্ট কার্ড (সকল সদস্যের জন্য) -->
+      <!-- ব্যক্তিগত একাউন্ট কার্ড -->
       <div class="bg-gradient-to-br from-teal-600 to-emerald-700 rounded-2xl p-5 text-white shadow-lg shadow-teal-600/20">
         <div class="flex justify-between items-start mb-3">
           <div>
@@ -103,7 +77,6 @@
           </div>
           <span id="roleTag" class="bg-white/20 px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-sm"></span>
         </div>
-
         <div class="grid grid-cols-3 gap-2 pt-2 border-t border-teal-500/50 text-center">
           <div>
             <p class="text-[11px] text-teal-100">পকেট জমা</p>
@@ -120,11 +93,10 @@
         </div>
       </div>
 
-      <!-- যৌথ আর্থিক বিবরণী: নগদ তহবিল ও ইনভেস্টমেন্ট স্ট্যাটাস (এডমিন ও ক্যাশিয়ার উভয়ের জন্য দৃশ্যমান) -->
+      <!-- যৌথ আর্থিক বিবরণী -->
       <div id="financialOverviewSection" class="hidden space-y-3">
         <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider">সমিতির বর্তমান ফান্ড ও সম্পদ বিবরণী</h3>
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-          <!-- ১. হাতে নগদ তহবিল (Liquid Cash) -->
           <div class="bg-gradient-to-br from-teal-50 to-emerald-50 border border-teal-300 p-4 rounded-2xl shadow-sm col-span-2 sm:col-span-1">
             <div class="flex items-center justify-between mb-1">
               <span class="text-xs font-bold text-teal-800">হাতে নগদ তহবিল (Cash)</span>
@@ -133,18 +105,14 @@
             <h4 id="statCashInHand" class="text-xl font-black text-teal-700">৳ ০</h4>
             <p class="text-[10px] text-slate-500 mt-1">পণ্য ক্রয় ও খরচের জন্য উপলব্ধ নগদ</p>
           </div>
-
-          <!-- ২. বাজারে খাটানো মূলধন (Market Due) -->
           <div class="bg-white border border-blue-200 p-4 rounded-2xl shadow-sm">
             <div class="flex items-center justify-between mb-1">
               <span class="text-xs font-bold text-slate-600">বাজারে খাটানো পাওনা</span>
               <i class="fa-solid fa-boxes-packing text-blue-500 text-sm"></i>
             </div>
             <h4 id="statMarketDue" class="text-lg font-bold text-blue-700">৳ ০</h4>
-            <p class="text-[10px] text-slate-400 mt-1">গ্রাহকদের কাছে আটকে থাকা কিস্তি</p>
+            <p class="text-[10px] text-slate-400 mt-1">গ্রাহকদের কাছে বকেয়া কিস্তি</p>
           </div>
-
-          <!-- ৩. সমিতির সর্বমোট মূলধন (Total Capital) -->
           <div class="bg-white border border-slate-200 p-4 rounded-2xl shadow-sm">
             <div class="flex items-center justify-between mb-1">
               <span class="text-xs font-bold text-slate-600">সমিতির সর্বমোট মূলধন</span>
@@ -154,7 +122,6 @@
             <p class="text-[10px] text-slate-400 mt-1">নগদ তহবিল + সদস্য মূলধন</p>
           </div>
         </div>
-
         <div class="grid grid-cols-3 gap-2">
           <div class="bg-white p-3 rounded-xl border border-slate-200 text-center">
             <p class="text-[11px] text-slate-500">মোট সঞ্চয় গ্রহণ</p>
@@ -171,45 +138,34 @@
         </div>
       </div>
 
-      <!-- ক্যাশিয়ার ও এডমিনের প্রধান অ্যাকশন বাটনসমূহ -->
+      <!-- লেনদেন কার্যক্রম বাটনসমূহ -->
       <div id="cashierActions" class="hidden space-y-3">
         <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider">লেনদেন ও কিস্তি কার্যক্রম</h3>
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
           <button onclick="openModal('depositModal')" class="bg-white hover:bg-slate-50 border border-teal-200 p-3 rounded-2xl shadow-sm text-left">
-            <div class="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center text-lg mb-2">
-              <i class="fa-solid fa-hand-holding-dollar"></i>
-            </div>
+            <div class="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center text-lg mb-2"><i class="fa-solid fa-hand-holding-dollar"></i></div>
             <p class="text-xs font-bold text-slate-800">সঞ্চয় জমা</p>
             <p class="text-[10px] text-slate-400">ক্যাশে টাকা যোগ হবে</p>
           </button>
-
           <button onclick="openModal('newSaleModal')" class="bg-white hover:bg-slate-50 border border-emerald-200 p-3 rounded-2xl shadow-sm text-left">
-            <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg mb-2">
-              <i class="fa-solid fa-cart-plus"></i>
-            </div>
+            <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg mb-2"><i class="fa-solid fa-cart-plus"></i></div>
             <p class="text-xs font-bold text-slate-800">নতুন কিস্তি বিক্রি</p>
             <p class="text-[10px] text-slate-400">ক্যাশ তহবিল থেকে ব্যয়</p>
           </button>
-
           <button onclick="openModal('collectInstallmentModal')" class="bg-white hover:bg-slate-50 border border-blue-200 p-3 rounded-2xl shadow-sm text-left">
-            <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg mb-2">
-              <i class="fa-solid fa-money-bill-transfer"></i>
-            </div>
+            <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-lg mb-2"><i class="fa-solid fa-money-bill-transfer"></i></div>
             <p class="text-xs font-bold text-slate-800">কিস্তি আদায়</p>
             <p class="text-[10px] text-slate-400">ক্যাশে ও লাভে বণ্টন</p>
           </button>
-
           <button onclick="openModal('voucherModal')" class="bg-white hover:bg-slate-50 border border-amber-200 p-3 rounded-2xl shadow-sm text-left">
-            <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg mb-2">
-              <i class="fa-solid fa-file-invoice-dollar"></i>
-            </div>
+            <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-lg mb-2"><i class="fa-solid fa-file-invoice-dollar"></i></div>
             <p class="text-xs font-bold text-slate-800">ভাউচার এন্ট্রি</p>
             <p class="text-[10px] text-slate-400">ক্যাশ থেকে খরচ বাদ</p>
           </button>
         </div>
       </div>
 
-      <!-- এডমিন: অপেক্ষমাণ অনুমোদন সেকশন (Pending Approvals) -->
+      <!-- এডমিন: অপেক্ষমাণ অনুমোদন সেকশন -->
       <div id="approvalSection" class="hidden space-y-4">
         <div class="bg-amber-50 border border-amber-300 rounded-2xl p-4 shadow-sm">
           <div class="flex items-center justify-between mb-3">
@@ -219,24 +175,18 @@
             </div>
             <span id="pendingTotalCount" class="text-xs bg-amber-200 text-amber-800 font-bold px-2 py-0.5 rounded-full">০ টি</span>
           </div>
-
-          <!-- কিস্তি আদায়ের অনুমোদন -->
           <div class="space-y-2 mb-3">
-            <p class="text-xs font-bold text-blue-900">কিস্তি আদায় অনুমোদন (অনুমোদনে ক্যাশ বৃদ্ধি ও মুনাফা বণ্টন হবে):</p>
+            <p class="text-xs font-bold text-blue-900">কিস্তি আদায় অনুমোদন:</p>
             <div id="pendingInstallmentsList" class="space-y-2 text-xs">
               <p class="text-slate-400 text-xs italic">কোনো কিস্তি আদায় অপেক্ষমাণ নেই</p>
             </div>
           </div>
-
-          <!-- সঞ্চয় জমা অনুমোদন -->
           <div class="space-y-2 mb-3 pt-2 border-t border-amber-200">
             <p class="text-xs font-bold text-teal-900">সঞ্চয় জমা অনুমোদন:</p>
             <div id="pendingDepositsList" class="space-y-2 text-xs">
               <p class="text-slate-400 text-xs italic">কোনো সঞ্চয় জমা অপেক্ষমাণ নেই</p>
             </div>
           </div>
-
-          <!-- ভাউচার অনুমোদন -->
           <div class="space-y-2 pt-2 border-t border-amber-200">
             <p class="text-xs font-bold text-amber-900">ভাউচার অনুমোদন:</p>
             <div id="pendingVouchersList" class="space-y-2 text-xs">
@@ -246,7 +196,7 @@
         </div>
       </div>
 
-      <!-- চলমান কিস্তি বিক্রয় হিসাব খতিয়ান -->
+      <!-- চলমান কিস্তি বিক্রয় খতিয়ান -->
       <div id="salesLedgerSection" class="hidden bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
         <div class="px-5 py-3 border-b border-slate-100 flex items-center justify-between">
           <h3 class="font-bold text-slate-800 text-sm">চলমান কিস্তি বিক্রি খতিয়ান</h3>
@@ -262,8 +212,8 @@
                 <th class="py-3 px-4 text-right">মোট লাভ</th>
                 <th class="py-3 px-4 text-right">আদায়কৃত</th>
                 <th class="py-3 px-4 text-right">বকেয়া</th>
-                <th class="py-3 px-4 text-center">বিনিয়োগ শেয়ার</th>
-                <th class="py-3 px-4 text-center admin-only-col">অ্যাকশন</th>
+                <th class="py-3 px-4 text-center">শেয়ার</th>
+                <th class="py-3 px-4 text-center">অ্যাকশন</th>
               </tr>
             </thead>
             <tbody id="salesTableBody" class="divide-y divide-slate-100"></tbody>
@@ -271,14 +221,13 @@
         </div>
       </div>
 
-      <!-- এডমিন ড্যাশবোর্ড ও সদস্য ব্যবস্থাপনা -->
+      <!-- সদস্য তালিকা ও ব্যবস্থাপনা -->
       <div id="adminPanel" class="hidden space-y-5">
         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
           <div class="px-5 py-3 border-b border-slate-100 flex items-center justify-between">
             <h3 class="font-bold text-slate-800 text-sm">সকল সদস্যের ব্যক্তিগত মূলধন ও খতিয়ান</h3>
             <button onclick="openModal('memberModal')" class="bg-indigo-600 text-white text-xs px-3 py-1.5 rounded-lg flex items-center gap-1">
-              <i class="fa-solid fa-user-plus"></i>
-              <span>নতুন সদস্য</span>
+              <i class="fa-solid fa-user-plus"></i><span>নতুন সদস্য</span>
             </button>
           </div>
           <div class="overflow-x-auto">
@@ -289,7 +238,7 @@
                   <th class="py-3 px-4">পদবী</th>
                   <th class="py-3 px-4 text-right">পকেট জমা</th>
                   <th class="py-3 px-4 text-right">মুনাফা</th>
-                  <th class="py-3 px-4 text-right">ব্যক্তিগত নিট মূলধন</th>
+                  <th class="py-3 px-4 text-right">ব্যক্তিগত মূলধন</th>
                   <th class="py-3 px-4 text-center">পদবী পরিবর্তন</th>
                   <th class="py-3 px-4 text-center">হিসাব এডিট</th>
                 </tr>
@@ -314,7 +263,7 @@
                 <th class="py-3 px-4">খাত ও বিবরণ</th>
                 <th class="py-3 px-4">এন্ট্রিদাতা</th>
                 <th class="py-3 px-4 text-right">টাকা</th>
-                <th class="py-3 px-4 text-center admin-only-col">অ্যাকশন</th>
+                <th class="py-3 px-4 text-center">অ্যাকশন</th>
               </tr>
             </thead>
             <tbody id="voucherTableBody" class="divide-y divide-slate-100"></tbody>
@@ -324,9 +273,7 @@
     </main>
   </div>
 
-  <!-- ==================== মোডালসমূহ ==================== -->
-
-  <!-- বিক্রয়কালীন শেয়ারহোল্ডার দেখার মোডাল -->
+  <!-- মোডালসমূহ -->
   <div id="investorsShareModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-sm rounded-2xl p-5 shadow-2xl">
       <div class="flex justify-between items-center mb-3">
@@ -339,7 +286,6 @@
     </div>
   </div>
 
-  <!-- সদস্য তথ্য ও সঞ্চয় হিসাব এডিট মোডাল -->
   <div id="editMemberModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-sm rounded-2xl p-5 shadow-2xl">
       <div class="flex justify-between items-center mb-4">
@@ -348,32 +294,16 @@
       </div>
       <form onsubmit="handleUpdateMember(event)" class="space-y-3">
         <input type="hidden" id="editMemberId">
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">সদস্যের নাম</label>
-          <input type="text" id="editMemberName" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">গোপন পিন নম্বর</label>
-          <input type="text" id="editMemberPin" required maxlength="6" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-mono">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">পকেট জমা (টাকা)</label>
-          <input type="number" id="editMemberOwnDeposits" required oninput="calcEditMemberTotal()" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">অর্জিত কিস্তির মুনাফা (টাকা)</label>
-          <input type="number" id="editMemberProfit" required oninput="calcEditMemberTotal()" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">ব্যক্তিগত নিট মূলধন</label>
-          <input type="number" id="editMemberTotalBalance" readonly class="w-full p-2.5 bg-slate-200 border border-slate-300 rounded-lg text-xs font-bold text-slate-700">
-        </div>
+        <div><label class="block text-xs font-semibold text-slate-600 mb-1">সদস্যের নাম</label><input type="text" id="editMemberName" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs"></div>
+        <div><label class="block text-xs font-semibold text-slate-600 mb-1">গোপন পিন</label><input type="text" id="editMemberPin" required maxlength="6" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-mono"></div>
+        <div><label class="block text-xs font-semibold text-slate-600 mb-1">পকেট জমা (টাকা)</label><input type="number" id="editMemberOwnDeposits" required oninput="calcEditMemberTotal()" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs"></div>
+        <div><label class="block text-xs font-semibold text-slate-600 mb-1">অর্জিত মুনাফা (টাকা)</label><input type="number" id="editMemberProfit" required oninput="calcEditMemberTotal()" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs"></div>
+        <div><label class="block text-xs font-semibold text-slate-600 mb-1">ব্যক্তিগত নিট মূলধন</label><input type="number" id="editMemberTotalBalance" readonly class="w-full p-2.5 bg-slate-200 border border-slate-300 rounded-lg text-xs font-bold text-slate-700"></div>
         <button type="submit" class="w-full bg-teal-600 text-white font-semibold py-2.5 rounded-lg text-xs mt-2 hover:bg-teal-700">সংশোধন নিশ্চিত করুন</button>
       </form>
     </div>
   </div>
 
-  <!-- কিস্তি বিক্রি খতিয়ান এডিট মোডাল -->
   <div id="editSaleModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-sm rounded-2xl p-5 shadow-2xl">
       <div class="flex justify-between items-center mb-4">
@@ -382,32 +312,16 @@
       </div>
       <form onsubmit="handleUpdateSale(event)" class="space-y-3">
         <input type="hidden" id="editSaleId">
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">ক্রেতার নাম</label>
-          <input type="text" id="editCustomerName" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">পণ্যের বিবরণ</label>
-          <input type="text" id="editProductName" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">মূল ইনভেস্ট (টাকা)</label>
-          <input type="number" id="editInvestAmount" min="1" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">বিক্রয়মূল্য (টাকা)</label>
-          <input type="number" id="editSaleAmount" min="1" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">আদায়কৃত টাকা</label>
-          <input type="number" id="editPaidAmount" min="0" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
-        </div>
+        <div><label class="block text-xs font-semibold text-slate-600 mb-1">ক্রেতার নাম</label><input type="text" id="editCustomerName" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs"></div>
+        <div><label class="block text-xs font-semibold text-slate-600 mb-1">পণ্যের বিবরণ</label><input type="text" id="editProductName" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs"></div>
+        <div><label class="block text-xs font-semibold text-slate-600 mb-1">মূল ইনভেস্ট (টাকা)</label><input type="number" id="editInvestAmount" min="1" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs"></div>
+        <div><label class="block text-xs font-semibold text-slate-600 mb-1">বিক্রয়মূল্য (টাকা)</label><input type="number" id="editSaleAmount" min="1" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs"></div>
+        <div><label class="block text-xs font-semibold text-slate-600 mb-1">আদায়কৃত টাকা</label><input type="number" id="editPaidAmount" min="0" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs"></div>
         <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-2.5 rounded-lg text-xs mt-2 hover:bg-blue-700">হালনাগাদ নিশ্চিত করুন</button>
       </form>
     </div>
   </div>
 
-  <!-- নতুন কিস্তি বিক্রি মোডাল (নগদ তহবিল যাচাইসহ) -->
   <div id="newSaleModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-sm rounded-2xl p-5 shadow-2xl">
       <div class="flex justify-between items-center mb-4">
@@ -415,37 +329,19 @@
         <button onclick="closeModal('newSaleModal')" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <form onsubmit="handleNewSale(event)" class="space-y-3">
-        <!-- বর্তমান ক্যাশ নোটিশ -->
         <div class="p-2.5 bg-teal-50 border border-teal-200 rounded-xl flex items-center justify-between">
           <span class="text-xs text-teal-800 font-semibold">হাতে নগদ তহবিল:</span>
           <span id="modalCashInHandHint" class="text-xs font-black text-teal-700">৳ ০</span>
         </div>
-
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">পণ্য ক্রেতার নাম</label>
-          <input type="text" id="saleCustomerName" required placeholder="যেমন: মো: করিম" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">পণ্যের বিবরণ / নাম</label>
-          <input type="text" id="saleProductName" required placeholder="যেমন: সিলিং ফ্যান / রাইস কুকার" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">মূল ইনভেস্ট / ক্রয়মূল্য (নগদ ক্যাশ থেকে বাদ যাবে)</label>
-          <input type="number" id="saleInvestAmount" min="1" required placeholder="পণ্যের কেনা দাম" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">বিক্রিত পণ্যের মোট বিক্রয় মূল্য (টাকা)</label>
-          <input type="number" id="saleTotalAmount" min="1" required placeholder="সর্বমোট কিস্তির বিক্রয়মূল্য" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
-        </div>
-        <p class="text-[10px] text-slate-500 bg-slate-50 p-2 rounded border border-slate-200">
-          * পণ্য ক্রয়ের টাকা নগদ তহবিল থেকে বাদ যাবে এবং তৎকালীন সময়ে থাকা সদস্যদের পুঁজিতে শেয়ার স্থায়ীভাবে লক হবে।
-        </p>
+        <div><label class="block text-xs font-semibold text-slate-600 mb-1">ক্রেতার নাম</label><input type="text" id="saleCustomerName" required placeholder="যেমন: মো: করিম" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs"></div>
+        <div><label class="block text-xs font-semibold text-slate-600 mb-1">পণ্যের বিবরণ / নাম</label><input type="text" id="saleProductName" required placeholder="যেমন: সিলিং ফ্যান" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs"></div>
+        <div><label class="block text-xs font-semibold text-slate-600 mb-1">মূল ইনভেস্ট (ক্যাশ থেকে বাদ যাবে)</label><input type="number" id="saleInvestAmount" min="1" required placeholder="কেনা দাম" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs"></div>
+        <div><label class="block text-xs font-semibold text-slate-600 mb-1">মোট বিক্রয় মূল্য (টাকা)</label><input type="number" id="saleTotalAmount" min="1" required placeholder="বিক্রয়মূল্য" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs"></div>
         <button type="submit" class="w-full bg-emerald-600 text-white font-semibold py-2.5 rounded-lg text-xs mt-2 hover:bg-emerald-700">বিক্রি হিসাব সংরক্ষণ করুন</button>
       </form>
     </div>
   </div>
 
-  <!-- কিস্তি আদায় মোডাল -->
   <div id="collectInstallmentModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-sm rounded-2xl p-5 shadow-2xl">
       <div class="flex justify-between items-center mb-4">
@@ -454,21 +350,19 @@
       </div>
       <form onsubmit="handleCollectInstallment(event)" class="space-y-3">
         <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">কিস্তির খাতা / ক্রেতা বাছাই করুন</label>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">কিস্তির খাতা বাছাই করুন</label>
           <select id="collectSaleSelect" required onchange="updateDueHint()" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs"></select>
           <p id="saleDueHint" class="text-[11px] text-blue-600 font-semibold mt-1"></p>
         </div>
         <div>
           <label class="block text-xs font-semibold text-slate-600 mb-1">আজকে প্রাপ্ত কিস্তির টাকা</label>
-          <input type="number" id="collectAmount" min="1" required placeholder="কিস্তির পরিমাণ" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
-          <p class="text-[10px] text-slate-400 mt-1">* কিস্তি আদায় অনুমোদিত হলে সম্পূর্ণ টাকা নগদ ক্যাশে যোগ হবে এবং নিট লাভ মূলধনে বণ্টন হবে।</p>
+          <input type="number" id="collectAmount" min="1" required placeholder="টাকার পরিমাণ" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
         </div>
         <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-2.5 rounded-lg text-xs mt-2 hover:bg-blue-700">কিস্তি জমা এন্ট্রি দিন</button>
       </form>
     </div>
   </div>
 
-  <!-- মাসিক সঞ্চয় জমা মোডাল -->
   <div id="depositModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-sm rounded-2xl p-5 shadow-2xl">
       <div class="flex justify-between items-center mb-4">
@@ -489,7 +383,6 @@
     </div>
   </div>
 
-  <!-- ভাউচার মোডাল -->
   <div id="voucherModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-sm rounded-2xl p-5 shadow-2xl">
       <div class="flex justify-between items-center mb-4">
@@ -497,24 +390,14 @@
         <button onclick="closeModal('voucherModal')" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <form onsubmit="handleVoucher(event)" class="space-y-3">
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">খরচের খাত / কারণ</label>
-          <input type="text" id="voucherReason" required placeholder="যেমন: খাতা কেনা, আপ্যায়ন" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">টাকার পরিমাণ (নগদ তহবিল থেকে বাদ যাবে)</label>
-          <input type="number" id="voucherAmount" min="1" required placeholder="টাকার অঙ্ক" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">টাকা গ্রহণকারী (ঐচ্ছিক)</label>
-          <input type="text" id="voucherReceiver" placeholder="কার কাছে দেওয়া হলো" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
-        </div>
+        <div><label class="block text-xs font-semibold text-slate-600 mb-1">খরচের খাত / কারণ</label><input type="text" id="voucherReason" required placeholder="যেমন: খাতা কেনা" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs"></div>
+        <div><label class="block text-xs font-semibold text-slate-600 mb-1">টাকার পরিমাণ (ক্যাশ থেকে বাদ যাবে)</label><input type="number" id="voucherAmount" min="1" required placeholder="টাকার অঙ্ক" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs"></div>
+        <div><label class="block text-xs font-semibold text-slate-600 mb-1">টাকা গ্রহণকারী (ঐচ্ছিক)</label><input type="text" id="voucherReceiver" placeholder="কার কাছে দেওয়া হলো" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs"></div>
         <button type="submit" class="w-full bg-amber-600 text-white font-semibold py-2.5 rounded-lg text-xs mt-2 hover:bg-amber-700">ভাউচার সাবমিট করুন</button>
       </form>
     </div>
   </div>
 
-  <!-- নতুন সদস্য নিবন্ধন মোডাল -->
   <div id="memberModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-sm rounded-2xl p-5 shadow-2xl">
       <div class="flex justify-between items-center mb-4">
@@ -522,28 +405,16 @@
         <button onclick="closeModal('memberModal')" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <form onsubmit="handleCreateMember(event)" class="space-y-3">
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">পূর্ণ নাম</label>
-          <input type="text" id="newMemberName" required placeholder="সদস্যের নাম" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">লগইন আইডি</label>
-          <input type="text" id="newMemberId" required placeholder="যেমন: M01, M02" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-mono">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">গোপন পিন (৪ সংখ্যা)</label>
-          <input type="password" id="newMemberPin" required maxlength="4" placeholder="যেমন: ১২৩৪" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-600 mb-1">প্রাথমিক জমা</label>
-          <input type="number" id="newMemberInitDeposit" min="0" value="0" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs">
-        </div>
+        <div><label class="block text-xs font-semibold text-slate-600 mb-1">পূর্ণ নাম</label><input type="text" id="newMemberName" required placeholder="সদস্যের নাম" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs"></div>
+        <div><label class="block text-xs font-semibold text-slate-600 mb-1">লগইন আইডি</label><input type="text" id="newMemberId" required placeholder="যেমন: M01" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-mono"></div>
+        <div><label class="block text-xs font-semibold text-slate-600 mb-1">গোপন পিন</label><input type="password" id="newMemberPin" required maxlength="4" placeholder="যেমন: ১২৩৪" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs"></div>
+        <div><label class="block text-xs font-semibold text-slate-600 mb-1">প্রাথমিক জমা</label><input type="number" id="newMemberInitDeposit" min="0" value="0" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs"></div>
         <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-2.5 rounded-lg text-xs mt-2 hover:bg-indigo-700">সংরক্ষণ করুন</button>
       </form>
     </div>
   </div>
 
-  <!-- ==================== জাভাস্ক্রিপ্ট লজিক ==================== -->
+  <!-- সম্পূর্ণ জাভাস্ক্রিপ্ট লজিক -->
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyD0ZmxaXo6LBCcoVo258HGSeApfaVOLOwo",
@@ -565,7 +436,6 @@
     let approvedVouchersList = [];
     let currentCashInHand = 0;
 
-    // ১. লগইন
     async function handleLogin(e) {
       e.preventDefault();
       const loginId = document.getElementById('loginId').value.trim();
@@ -582,4 +452,711 @@
         if (!docRef.exists) throw new Error("আইডি সঠিক নয়!");
 
         const data = docRef.data();
-        if (String(data.pin)
+        if (String(data.pin) !== String(loginPin)) throw new Error("ভুল পিন নম্বর!");
+
+        currentUser = { id: docRef.id, ...data };
+        initDashboard();
+      } catch (err) {
+        errEl.innerText = err.message;
+        errEl.classList.remove('hidden');
+      } finally {
+        btn.innerText = "প্রবেশ করুন";
+        btn.disabled = false;
+      }
+    }
+
+    function initDashboard() {
+      document.getElementById('loginSection').classList.add('hidden');
+      document.getElementById('appSection').classList.remove('hidden');
+
+      document.getElementById('currentUserName').innerText = currentUser.name || "সদস্য";
+      document.getElementById('currentUserId').innerText = `আইডি: ${currentUser.id}`;
+      
+      const roleBadge = document.getElementById('userRoleBadge');
+      const roleTag = document.getElementById('roleTag');
+
+      if (currentUser.role === 'admin') {
+        roleBadge.innerText = 'এডমিন প্যানেল';
+        roleTag.innerText = 'এডমিন';
+        document.getElementById('adminPanel').classList.remove('hidden');
+        document.getElementById('cashierActions').classList.remove('hidden');
+        document.getElementById('approvalSection').classList.remove('hidden');
+        document.getElementById('voucherHistorySection').classList.remove('hidden');
+        document.getElementById('salesLedgerSection').classList.remove('hidden');
+        document.getElementById('financialOverviewSection').classList.remove('hidden');
+        listenToApprovals();
+      } else if (currentUser.role === 'cashier') {
+        roleBadge.innerText = 'ক্যাশিয়ার প্যানেল';
+        roleTag.innerText = 'ক্যাশিয়ার';
+        document.getElementById('cashierActions').classList.remove('hidden');
+        document.getElementById('voucherHistorySection').classList.remove('hidden');
+        document.getElementById('salesLedgerSection').classList.remove('hidden');
+        document.getElementById('financialOverviewSection').classList.remove('hidden');
+      } else {
+        roleBadge.innerText = 'সদস্য ড্যাশবোর্ড';
+        roleTag.innerText = 'সদস্য';
+      }
+
+      listenToUserData();
+      listenToMembers();
+      listenToSales();
+      listenToApprovedVouchers();
+    }
+
+    function listenToUserData() {
+      db.collection('members').doc(currentUser.id).onSnapshot(doc => {
+        if (doc.exists) {
+          const d = doc.data();
+          document.getElementById('userOwnDeposit').innerText = `৳ ${(d.ownDeposits || 0).toLocaleString('bn-BD')}`;
+          document.getElementById('userProfit').innerText = `৳ ${(d.reinvestedProfit || 0).toLocaleString('bn-BD')}`;
+          document.getElementById('userBalance').innerText = `৳ ${(d.currentBalance || 0).toLocaleString('bn-BD')}`;
+        }
+      });
+    }
+
+    function listenToMembers() {
+      db.collection('members').onSnapshot(snap => {
+        membersList = [];
+        const select = document.getElementById('depositMemberSelect');
+        select.innerHTML = '<option value="">সদস্য বাছাই করুন</option>';
+
+        snap.forEach(doc => {
+          const m = { id: doc.id, ...doc.data() };
+          membersList.push(m);
+          select.innerHTML += `<option value="${m.id}">${m.name} (${m.id})</option>`;
+        });
+
+        recalculateOverallFinancials();
+        renderAdminMemberTable();
+      });
+    }
+
+    function listenToSales() {
+      db.collection('installment_sales').orderBy('createdAt', 'desc').onSnapshot(snap => {
+        salesList = [];
+        const tbody = document.getElementById('salesTableBody');
+        const select = document.getElementById('collectSaleSelect');
+        tbody.innerHTML = '';
+        select.innerHTML = '<option value="">হিসাব নির্বাচন করুন</option>';
+
+        snap.forEach(doc => {
+          const s = { id: doc.id, ...doc.data() };
+          salesList.push(s);
+
+          if (s.dueAmount > 0) {
+            select.innerHTML += `<option value="${s.id}">${s.customerName} - ${s.productName} (বকেয়া: ৳${s.dueAmount})</option>`;
+          }
+
+          let actionButtons = '-';
+          if (currentUser && currentUser.role === 'admin') {
+            actionButtons = `
+              <div class="flex items-center justify-center gap-1.5">
+                <button onclick="openEditSaleModal('${s.id}')" class="bg-blue-50 text-blue-600 border border-blue-200 px-2 py-0.5 rounded text-[10px] hover:bg-blue-100 font-medium">এডিট</button>
+                <button onclick="deleteSale('${s.id}')" class="bg-red-50 text-red-600 border border-red-200 px-2 py-0.5 rounded text-[10px] hover:bg-red-100 font-medium">মুছুন</button>
+              </div>
+            `;
+          }
+
+          const tr = document.createElement('tr');
+          tr.className = "hover:bg-slate-50";
+          tr.innerHTML = `
+            <td class="py-2.5 px-4"><p class="font-bold text-slate-800">${s.customerName}</p><p class="text-[10px] text-slate-400">${s.productName}</p></td>
+            <td class="py-2.5 px-4 text-right">৳ ${(s.investAmount || 0).toLocaleString('bn-BD')}</td>
+            <td class="py-2.5 px-4 text-right font-medium">৳ ${(s.saleAmount || 0).toLocaleString('bn-BD')}</td>
+            <td class="py-2.5 px-4 text-right text-emerald-600 font-bold">৳ ${(s.totalProfit || 0).toLocaleString('bn-BD')}</td>
+            <td class="py-2.5 px-4 text-right text-blue-600 font-medium">৳ ${(s.paidAmount || 0).toLocaleString('bn-BD')}</td>
+            <td class="py-2.5 px-4 text-right text-red-600 font-bold">৳ ${(s.dueAmount || 0).toLocaleString('bn-BD')}</td>
+            <td class="py-2.5 px-4 text-center">
+              <button onclick="viewInvestorsShare('${s.id}')" class="bg-teal-50 hover:bg-teal-100 text-teal-700 border border-teal-200 px-2 py-0.5 rounded text-[10px] font-semibold">শেয়ার</button>
+            </td>
+            <td class="py-2.5 px-4 text-center">${actionButtons}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+        recalculateOverallFinancials();
+      });
+    }
+
+    function listenToApprovedVouchers() {
+      db.collection('vouchers').where('status', '==', 'approved').onSnapshot(snap => {
+        approvedVouchersList = [];
+        const tbody = document.getElementById('voucherTableBody');
+        tbody.innerHTML = '';
+        if (snap.empty) {
+          tbody.innerHTML = '<tr><td colspan="5" class="text-center py-3 text-slate-400">কোনো অনুমোদিত ভাউচার নেই</td></tr>';
+        }
+
+        snap.forEach(doc => {
+          const v = { id: doc.id, ...doc.data() };
+          approvedVouchersList.push(v);
+
+          let actionCol = '-';
+          if (currentUser && currentUser.role === 'admin') {
+            actionCol = `<button onclick="deleteApprovedVoucher('${doc.id}')" class="bg-red-50 text-red-600 border border-red-200 px-2 py-0.5 rounded text-[10px] hover:bg-red-100 font-medium">মুছুন</button>`;
+          }
+
+          const tr = document.createElement('tr');
+          tr.className = "hover:bg-slate-50";
+          tr.innerHTML = `
+            <td class="py-2.5 px-4 font-mono text-[11px] text-slate-500">${v.date || '-'}</td>
+            <td class="py-2.5 px-4"><p class="font-semibold text-slate-800">${v.reason}</p><p class="text-[10px] text-slate-400">গ্রহীতা: ${v.receiver}</p></td>
+            <td class="py-2.5 px-4 text-slate-600">${v.createdBy}</td>
+            <td class="py-2.5 px-4 text-right font-bold text-amber-700">৳ ${Number(v.amount).toLocaleString('bn-BD')}</td>
+            <td class="py-2.5 px-4 text-center">${actionCol}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+        recalculateOverallFinancials();
+      });
+    }
+
+    function recalculateOverallFinancials() {
+      let totalOwnDeposits = 0, totalProfits = 0, totalMembersBalance = 0;
+      membersList.forEach(m => {
+        totalOwnDeposits += Number(m.ownDeposits || 0);
+        totalProfits += Number(m.reinvestedProfit || 0);
+        totalMembersBalance += Number(m.currentBalance || 0);
+      });
+
+      let totalProductInvest = 0, totalInstallmentsCollected = 0, totalMarketDue = 0;
+      salesList.forEach(s => {
+        totalProductInvest += Number(s.investAmount || 0);
+        totalInstallmentsCollected += Number(s.paidAmount || 0);
+        totalMarketDue += Number(s.dueAmount || 0);
+      });
+
+      let totalExpenses = 0;
+      approvedVouchersList.forEach(v => { totalExpenses += Number(v.amount || 0); });
+
+      currentCashInHand = (totalOwnDeposits + totalInstallmentsCollected) - (totalProductInvest + totalExpenses);
+
+      const cashEl = document.getElementById('statCashInHand');
+      const marketDueEl = document.getElementById('statMarketDue');
+      const totalCapEl = document.getElementById('statTotalCapital');
+      const totalDepEl = document.getElementById('statTotalDeposits');
+      const totalProfEl = document.getElementById('statTotalProfits');
+      const totalExpEl = document.getElementById('statTotalExpenses');
+      const hintCash = document.getElementById('modalCashInHandHint');
+
+      if (cashEl) cashEl.innerText = `৳ ${currentCashInHand.toLocaleString('bn-BD')}`;
+      if (hintCash) hintCash.innerText = `৳ ${currentCashInHand.toLocaleString('bn-BD')}`;
+      if (marketDueEl) marketDueEl.innerText = `৳ ${totalMarketDue.toLocaleString('bn-BD')}`;
+      if (totalCapEl) totalCapEl.innerText = `৳ ${totalMembersBalance.toLocaleString('bn-BD')}`;
+      if (totalDepEl) totalDepEl.innerText = `৳ ${totalOwnDeposits.toLocaleString('bn-BD')}`;
+      if (totalProfEl) totalProfEl.innerText = `৳ ${totalProfits.toLocaleString('bn-BD')}`;
+      if (totalExpEl) totalExpEl.innerText = `৳ ${totalExpenses.toLocaleString('bn-BD')}`;
+    }
+
+    function renderAdminMemberTable() {
+      const tbody = document.getElementById('memberTableBody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      membersList.forEach(m => {
+        const bal = Number(m.currentBalance || 0);
+        let roleBadge = '<span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">সদস্য</span>';
+        let roleBtn = '';
+
+        if (m.role === 'admin') {
+          roleBadge = '<span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-teal-100 text-teal-800">এডমিন</span>';
+          roleBtn = '<span class="text-slate-400 text-[10px]">প্রধান</span>';
+        } else if (m.role === 'cashier') {
+          roleBadge = '<span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">ক্যাশিয়ার</span>';
+          roleBtn = `<button onclick="toggleCashierRole('${m.id}', 'member')" class="bg-red-50 text-red-600 border border-red-200 px-2 py-1 rounded text-[10px] hover:bg-red-100">ক্যাশিয়ার বাতিল</button>`;
+        } else {
+          roleBtn = `<button onclick="toggleCashierRole('${m.id}', 'cashier')" class="bg-teal-50 text-teal-700 border border-teal-200 px-2 py-0.5 rounded text-[10px] hover:bg-teal-100">ক্যাশিয়ার বানান</button>`;
+        }
+
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50";
+        tr.innerHTML = `
+          <td class="py-3 px-4"><p class="font-bold text-slate-800">${m.name}</p><p class="text-[10px] text-slate-400 font-mono">${m.id}</p></td>
+          <td class="py-3 px-4">${roleBadge}</td>
+          <td class="py-3 px-4 text-right font-medium text-slate-600">৳ ${(m.ownDeposits || 0).toLocaleString('bn-BD')}</td>
+          <td class="py-3 px-4 text-right font-medium text-emerald-600">৳ ${(m.reinvestedProfit || 0).toLocaleString('bn-BD')}</td>
+          <td class="py-3 px-4 text-right font-bold text-slate-800">৳ ${bal.toLocaleString('bn-BD')}</td>
+          <td class="py-3 px-4 text-center">${roleBtn}</td>
+          <td class="py-3 px-4 text-center">
+            <button onclick="openEditMemberModal('${m.id}')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 px-2.5 py-1 rounded-md text-[10px] font-semibold flex items-center gap-1 mx-auto">
+              <i class="fa-solid fa-pen-to-square"></i><span>এডিট</span>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function updateDueHint() {
+      const saleId = document.getElementById('collectSaleSelect').value;
+      const hint = document.getElementById('saleDueHint');
+      const item = salesList.find(s => s.id === saleId);
+      hint.innerText = item ? `অবশিষ্ট বকেয়া আছে: ৳ ${item.dueAmount} টাকা` : '';
+    }
+
+    async function handleNewSale(e) {
+      e.preventDefault();
+      const customer = document.getElementById('saleCustomerName').value.trim();
+      const product = document.getElementById('saleProductName').value.trim();
+      const invest = Number(document.getElementById('saleInvestAmount').value);
+      const sale = Number(document.getElementById('saleTotalAmount').value);
+
+      if (sale <= invest) {
+        alert("বিক্রয়মূল্য অবশ্যই মূল ইনভেস্টের চেয়ে বেশি হতে হবে!");
+        return;
+      }
+
+      if (invest > currentCashInHand) {
+        const confirmOverdraft = confirm(`সতর্কতা: পণ্য কেনার ইনভেস্ট (৳ ${invest}) বর্তমান ক্যাশের (৳ ${currentCashInHand}) চেয়ে বেশি!\nতবুও কি বিক্রি সেভ করবেন?`);
+        if (!confirmOverdraft) return;
+      }
+
+      const totalCapitalAtSale = membersList.reduce((sum, m) => sum + Number(m.currentBalance || 0), 0);
+      if (totalCapitalAtSale <= 0) {
+        alert("সমিতির মোট ফান্ড শূন্য থাকায় ইনভেস্ট করা সম্ভব নয়!");
+        return;
+      }
+
+      const investorsSnapshot = membersList
+        .filter(m => Number(m.currentBalance || 0) > 0)
+        .map(m => {
+          const cap = Number(m.currentBalance || 0);
+          return { id: m.id, name: m.name, capitalAtSale: cap, ratio: cap / totalCapitalAtSale };
+        });
+
+      const profit = sale - invest;
+
+      try {
+        await db.collection('installment_sales').add({
+          customerName: customer,
+          productName: product,
+          investAmount: invest,
+          saleAmount: sale,
+          totalProfit: profit,
+          paidAmount: 0,
+          dueAmount: sale,
+          totalCapitalAtSale: totalCapitalAtSale,
+          investorsSnapshot: investorsSnapshot,
+          status: 'running',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        alert("নতুন কিস্তি বিক্রি সফলভাবে যুক্ত হয়েছে!");
+        closeModal('newSaleModal');
+        document.getElementById('saleCustomerName').value = '';
+        document.getElementById('saleProductName').value = '';
+        document.getElementById('saleInvestAmount').value = '';
+        document.getElementById('saleTotalAmount').value = '';
+      } catch (err) {
+        alert("বিক্রি সংরক্ষণ ব্যর্থ: " + err.message);
+      }
+    }
+
+    function viewInvestorsShare(saleId) {
+      const sale = salesList.find(s => s.id === saleId);
+      if (!sale) return;
+
+      document.getElementById('shareProductTitle').innerText = `${sale.customerName} - ${sale.productName} (তৎকালীন ফান্ড: ৳${sale.totalCapitalAtSale || 0})`;
+      const list = document.getElementById('investorsShareList');
+      list.innerHTML = '';
+
+      if (sale.investorsSnapshot && sale.investorsSnapshot.length > 0) {
+        sale.investorsSnapshot.forEach(inv => {
+          const pct = (inv.ratio * 100).toFixed(1);
+          const div = document.createElement('div');
+          div.className = "flex justify-between items-center bg-slate-50 p-2 rounded border border-slate-200 text-xs";
+          div.innerHTML = `<div><p class="font-bold text-slate-800">${inv.name}</p><p class="text-[10px] text-slate-400">তৎকালীন পুঁজি: ৳${(inv.capitalAtSale || 0).toLocaleString('bn-BD')}</p></div><span class="font-bold text-teal-700 bg-teal-100 px-2 py-0.5 rounded text-[11px]">${pct}%</span>`;
+          list.appendChild(div);
+        });
+      } else {
+        list.innerHTML = '<p class="text-xs text-slate-400 text-center py-2">কোনো রেকর্ড পাওয়া যায়নি</p>';
+      }
+      openModal('investorsShareModal');
+    }
+
+    async function handleCollectInstallment(e) {
+      e.preventDefault();
+      const saleId = document.getElementById('collectSaleSelect').value;
+      const amount = Number(document.getElementById('collectAmount').value);
+
+      if (!saleId || amount <= 0) return;
+      const sale = salesList.find(s => s.id === saleId);
+      if (!sale) return;
+
+      if (amount > sale.dueAmount) {
+        alert(`বকেয়া আছে মাত্র ৳ ${sale.dueAmount} টাকা!`);
+        return;
+      }
+
+      const dateStr = new Date().toLocaleDateString('bn-BD');
+
+      try {
+        if (currentUser.role === 'admin') {
+          await processInstallmentApproval(saleId, amount);
+          alert("কিস্তি অনুমোদিত হয়ে নগদ তহবিলে জমা হয়েছে ও মুনাফা বণ্টন হয়েছে!");
+        } else {
+          await db.collection('pending_installments').add({
+            saleId: saleId,
+            customerName: sale.customerName,
+            productName: sale.productName,
+            amount: amount,
+            submittedBy: currentUser.name,
+            date: dateStr,
+            status: 'pending',
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          alert("কিস্তি আদায়ের এন্ট্রি সম্পন্ন হয়েছে! এডমিনের অনুমোদনের পর জমা হবে।");
+        }
+
+        closeModal('collectInstallmentModal');
+        document.getElementById('collectAmount').value = '';
+      } catch (err) {
+        alert("ত্রুটি: " + err.message);
+      }
+    }
+
+    async function processInstallmentApproval(saleId, amount) {
+      const saleRef = db.collection('installment_sales').doc(saleId);
+      const saleDoc = await saleRef.get();
+      if (!saleDoc.exists) throw new Error("হিসাব পাওয়া যায়নি!");
+      const sale = saleDoc.data();
+
+      const profitRatio = sale.totalProfit / sale.saleAmount;
+      const installmentProfit = Math.round(amount * profitRatio);
+
+      const batch = db.batch();
+      const newPaid = Number(sale.paidAmount || 0) + amount;
+      const newDue = Number(sale.dueAmount || 0) - amount;
+      batch.update(saleRef, {
+        paidAmount: newPaid,
+        dueAmount: newDue,
+        status: newDue <= 0 ? 'completed' : 'running'
+      });
+
+      if (installmentProfit > 0 && sale.investorsSnapshot && sale.investorsSnapshot.length > 0) {
+        sale.investorsSnapshot.forEach(inv => {
+          if (inv.ratio > 0) {
+            const memberProfitShare = Math.round(inv.ratio * installmentProfit);
+            if (memberProfitShare > 0) {
+              const memberRef = db.collection('members').doc(inv.id);
+              batch.update(memberRef, {
+                reinvestedProfit: firebase.firestore.FieldValue.increment(memberProfitShare),
+                currentBalance: firebase.firestore.FieldValue.increment(memberProfitShare)
+              });
+            }
+          }
+        });
+      }
+
+      await batch.commit();
+    }
+
+    function listenToApprovals() {
+      db.collection('pending_installments').where('status', '==', 'pending').onSnapshot(snap => {
+        const list = document.getElementById('pendingInstallmentsList');
+        list.innerHTML = '';
+        if (snap.empty) {
+          list.innerHTML = '<p class="text-slate-400 text-xs italic">কোনো কিস্তি আদায় অপেক্ষমাণ নেই</p>';
+        } else {
+          snap.forEach(doc => {
+            const d = doc.data();
+            const div = document.createElement('div');
+            div.className = "bg-white p-3 rounded-xl border border-blue-200 flex items-center justify-between";
+            div.innerHTML = `
+              <div><p class="font-bold text-slate-800">${d.customerName} (${d.productName})</p><p class="text-[11px] text-blue-700 font-bold">আদায়কৃত কিস্তি: ৳ ${Number(d.amount).toLocaleString('bn-BD')}</p><p class="text-[10px] text-slate-400">ক্যাশিয়ার: ${d.submittedBy} | ${d.date}</p></div>
+              <div class="flex gap-1.5">
+                <button onclick="approveInstallment('${doc.id}', '${d.saleId}', ${d.amount})" class="bg-blue-600 text-white px-2.5 py-1 rounded-lg text-xs font-semibold hover:bg-blue-700">অনুমোদন</button>
+                <button onclick="rejectPending('pending_installments', '${doc.id}')" class="bg-red-50 text-red-600 border border-red-200 px-2 py-1 rounded-lg text-xs hover:bg-red-100">বাতিল</button>
+              </div>
+            `;
+            list.appendChild(div);
+          });
+        }
+        updatePendingBadge();
+      });
+
+      db.collection('pending_deposits').where('status', '==', 'pending').onSnapshot(snap => {
+        const list = document.getElementById('pendingDepositsList');
+        list.innerHTML = '';
+        if (snap.empty) {
+          list.innerHTML = '<p class="text-slate-400 text-xs italic">কোনো সঞ্চয় জমা অপেক্ষমাণ নেই</p>';
+        } else {
+          snap.forEach(doc => {
+            const d = doc.data();
+            const div = document.createElement('div');
+            div.className = "bg-white p-3 rounded-xl border border-teal-200 flex items-center justify-between";
+            div.innerHTML = `
+              <div><p class="font-bold text-slate-800">${d.memberName} (${d.memberId})</p><p class="text-[11px] text-teal-700 font-bold">সঞ্চয় জমা: ৳ ${Number(d.amount).toLocaleString('bn-BD')}</p><p class="text-[10px] text-slate-400">এন্ট্রিদাতা: ${d.submittedBy} | ${d.date}</p></div>
+              <div class="flex gap-1.5">
+                <button onclick="approveDeposit('${doc.id}', '${d.memberId}', ${d.amount})" class="bg-teal-600 text-white px-2.5 py-1 rounded-lg text-xs font-semibold hover:bg-teal-700">অনুমোদন</button>
+                <button onclick="rejectPending('pending_deposits', '${doc.id}')" class="bg-red-50 text-red-600 border border-red-200 px-2 py-1 rounded-lg text-xs hover:bg-red-100">বাতিল</button>
+              </div>
+            `;
+            list.appendChild(div);
+          });
+        }
+        updatePendingBadge();
+      });
+
+      db.collection('vouchers').where('status', '==', 'pending').onSnapshot(snap => {
+        const list = document.getElementById('pendingVouchersList');
+        list.innerHTML = '';
+        if (snap.empty) {
+          list.innerHTML = '<p class="text-slate-400 text-xs italic">কোনো ভাউচার অপেক্ষমাণ নেই</p>';
+        } else {
+          snap.forEach(doc => {
+            const v = doc.data();
+            const div = document.createElement('div');
+            div.className = "bg-white p-3 rounded-xl border border-amber-200 flex items-center justify-between";
+            div.innerHTML = `
+              <div><p class="font-bold text-slate-800">${v.reason}</p><p class="text-[11px] text-amber-700 font-bold">টাকা: ৳ ${Number(v.amount).toLocaleString('bn-BD')}</p><p class="text-[10px] text-slate-400">ক্যাশিয়ার: ${v.createdBy} | ${v.date}</p></div>
+              <div class="flex gap-1.5">
+                <button onclick="approveVoucher('${doc.id}')" class="bg-emerald-600 text-white px-2.5 py-1 rounded-lg text-xs font-semibold hover:bg-emerald-700">অনুমোদন</button>
+                <button onclick="rejectPending('vouchers', '${doc.id}')" class="bg-red-50 text-red-600 border border-red-200 px-2 py-1 rounded-lg text-xs hover:bg-red-100">বাতিল</button>
+              </div>
+            `;
+            list.appendChild(div);
+          });
+        }
+        updatePendingBadge();
+      });
+    }
+
+    function updatePendingBadge() {
+      Promise.all([
+        db.collection('pending_installments').where('status', '==', 'pending').get(),
+        db.collection('pending_deposits').where('status', '==', 'pending').get(),
+        db.collection('vouchers').where('status', '==', 'pending').get()
+      ]).then(([s0, s1, s2]) => {
+        const total = s0.size + s1.size + s2.size;
+        document.getElementById('pendingTotalCount').innerText = `${total.toLocaleString('bn-BD')} টি`;
+      });
+    }
+
+    async function approveInstallment(docId, saleId, amount) {
+      if (!confirm(`৳ ${amount} টাকার কিস্তি অনুমোদন করতে চান? এতে নগদ তহবিল বৃদ্ধি পাবে।`)) return;
+      try {
+        await processInstallmentApproval(saleId, amount);
+        await db.collection('pending_installments').doc(docId).update({ status: 'approved' });
+        alert("কিস্তি অনুমোদিত হয়েছে!");
+      } catch (err) { alert("ত্রুটি: " + err.message); }
+    }
+
+    async function approveDeposit(docId, memberId, amount) {
+      if (!confirm(`৳ ${amount} টাকার সঞ্চয় জমা অনুমোদন করতে চান?`)) return;
+      try {
+        const memberRef = db.collection('members').doc(memberId);
+        await db.runTransaction(async (t) => {
+          const doc = await t.get(memberRef);
+          if (!doc.exists) throw new Error("সদস্য পাওয়া যায়নি!");
+          const data = doc.data();
+          t.update(memberRef, { 
+            ownDeposits: (Number(data.ownDeposits) || 0) + Number(amount),
+            currentBalance: (Number(data.currentBalance) || 0) + Number(amount)
+          });
+          t.update(db.collection('pending_deposits').doc(docId), { status: 'approved' });
+        });
+        alert("সঞ্চয় সফলভাবে অনুমোদিত হয়েছে!");
+      } catch (err) { alert("ত্রুটি: " + err.message); }
+    }
+
+    async function approveVoucher(docId) {
+      if (!confirm("ভাউচারটি অনুমোদন করতে চান? এতে নগদ তহবিল থেকে টাকা বাদ যাবে।")) return;
+      try {
+        await db.collection('vouchers').doc(docId).update({ status: 'approved' });
+        alert("ভাউচার অনুমোদিত হয়েছে!");
+      } catch (err) { alert("ত্রুটি: " + err.message); }
+    }
+
+    async function rejectPending(collectionName, docId) {
+      if (!confirm("এন্ট্রিটি বাতিল করতে চান?")) return;
+      try {
+        await db.collection(collectionName).doc(docId).delete();
+        alert("বাতিল করা হয়েছে।");
+      } catch (err) { alert("ব্যর্থ: " + err.message); }
+    }
+
+    function openEditMemberModal(memberId) {
+      const member = membersList.find(m => m.id === memberId);
+      if (!member) return;
+      document.getElementById('editMemberId').value = member.id;
+      document.getElementById('editMemberName').value = member.name || '';
+      document.getElementById('editMemberPin').value = member.pin || '';
+      document.getElementById('editMemberOwnDeposits').value = member.ownDeposits || 0;
+      document.getElementById('editMemberProfit').value = member.reinvestedProfit || 0;
+      document.getElementById('editMemberTotalBalance').value = member.currentBalance || 0;
+      openModal('editMemberModal');
+    }
+
+    function calcEditMemberTotal() {
+      const own = Number(document.getElementById('editMemberOwnDeposits').value) || 0;
+      const prof = Number(document.getElementById('editMemberProfit').value) || 0;
+      document.getElementById('editMemberTotalBalance').value = own + prof;
+    }
+
+    async function handleUpdateMember(e) {
+      e.preventDefault();
+      const id = document.getElementById('editMemberId').value;
+      const name = document.getElementById('editMemberName').value.trim();
+      const pin = document.getElementById('editMemberPin').value.trim();
+      const own = Number(document.getElementById('editMemberOwnDeposits').value) || 0;
+      const prof = Number(document.getElementById('editMemberProfit').value) || 0;
+      try {
+        await db.collection('members').doc(id).update({
+          name: name, pin: pin, ownDeposits: own, reinvestedProfit: prof, currentBalance: own + prof
+        });
+        alert("সদস্যের তথ্য হালনাগাদ হয়েছে!");
+        closeModal('editMemberModal');
+      } catch (err) { alert("ব্যর্থ: " + err.message); }
+    }
+
+    function openEditSaleModal(saleId) {
+      const sale = salesList.find(s => s.id === saleId);
+      if (!sale) return;
+      document.getElementById('editSaleId').value = sale.id;
+      document.getElementById('editCustomerName').value = sale.customerName || '';
+      document.getElementById('editProductName').value = sale.productName || '';
+      document.getElementById('editInvestAmount').value = sale.investAmount || 0;
+      document.getElementById('editSaleAmount').value = sale.saleAmount || 0;
+      document.getElementById('editPaidAmount').value = sale.paidAmount || 0;
+      openModal('editSaleModal');
+    }
+
+    async function handleUpdateSale(e) {
+      e.preventDefault();
+      const id = document.getElementById('editSaleId').value;
+      const customer = document.getElementById('editCustomerName').value.trim();
+      const product = document.getElementById('editProductName').value.trim();
+      const invest = Number(document.getElementById('editInvestAmount').value);
+      const sale = Number(document.getElementById('editSaleAmount').value);
+      const paid = Number(document.getElementById('editPaidAmount').value);
+
+      if (sale < invest) { alert("বিক্রয়মূল্য ইনভেস্টের চেয়ে কম হতে পারে না!"); return; }
+      if (paid > sale) { alert("আদায়কৃত টাকা বিক্রয়মূল্যের চেয়ে বেশি হতে পারে না!"); return; }
+
+      const totalProfit = sale - invest;
+      const due = sale - paid;
+      try {
+        await db.collection('installment_sales').doc(id).update({
+          customerName: customer, productName: product, investAmount: invest, saleAmount: sale,
+          totalProfit: totalProfit, paidAmount: paid, dueAmount: due, status: due <= 0 ? 'completed' : 'running'
+        });
+        alert("কিস্তি বিক্রি হালনাগাদ হয়েছে!");
+        closeModal('editSaleModal');
+      } catch (err) { alert("আপডেট ব্যর্থ: " + err.message); }
+    }
+
+    async function deleteSale(saleId) {
+      if (!confirm("কিস্তির খাতাটি মুছে ফেলতে চান?")) return;
+      try {
+        await db.collection('installment_sales').doc(saleId).delete();
+        alert("মুছে ফেলা হয়েছে!");
+      } catch (err) { alert("ত্রুটি: " + err.message); }
+    }
+
+    async function deleteApprovedVoucher(voucherId) {
+      if (!confirm("ভাউচারটি মুছে ফেলতে চান?")) return;
+      try {
+        await db.collection('vouchers').doc(voucherId).delete();
+        alert("ভাউচার মুছে ফেলা হয়েছে!");
+      } catch (err) { alert("ত্রুটি: " + err.message); }
+    }
+
+    async function toggleCashierRole(memberId, newRole) {
+      const msg = newRole === 'cashier' ? "সদস্যকে ক্যাশিয়ার বানাতে চান?" : "ক্যাশিয়ার পদবী প্রত্যাহার করতে চান?";
+      if (!confirm(msg)) return;
+      try {
+        await db.collection('members').doc(memberId).update({ role: newRole });
+        alert("পদবী হালনাগাদ করা হয়েছে!");
+      } catch (err) { alert("ব্যর্থ: " + err.message); }
+    }
+
+    async function handleDeposit(e) {
+      e.preventDefault();
+      const memberId = document.getElementById('depositMemberSelect').value;
+      const amount = Number(document.getElementById('depositAmount').value);
+      if (!memberId || amount <= 0) return;
+
+      const member = membersList.find(m => m.id === memberId);
+      const memberName = member ? member.name : memberId;
+      const dateStr = new Date().toLocaleDateString('bn-BD');
+
+      try {
+        if (currentUser.role === 'admin') {
+          const memberRef = db.collection('members').doc(memberId);
+          await db.runTransaction(async (t) => {
+            const doc = await t.get(memberRef);
+            const data = doc.data();
+            t.update(memberRef, { 
+              ownDeposits: (Number(data.ownDeposits) || 0) + amount,
+              currentBalance: (Number(data.currentBalance) || 0) + amount 
+            });
+          });
+          alert("সঞ্চয় সরাসরি নগদ তহবিলে যুক্ত হয়েছে!");
+        } else {
+          await db.collection('pending_deposits').add({
+            memberId: memberId, memberName: memberName, amount: amount,
+            submittedBy: currentUser.name, date: dateStr, status: 'pending',
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          alert("সঞ্চয় এন্ট্রি হয়েছে! এডমিনের অনুমোদনের পর জমা হবে।");
+        }
+        closeModal('depositModal');
+        document.getElementById('depositAmount').value = '';
+      } catch (err) { alert("ত্রুটি: " + err.message); }
+    }
+
+    async function handleVoucher(e) {
+      e.preventDefault();
+      const reason = document.getElementById('voucherReason').value.trim();
+      const amount = Number(document.getElementById('voucherAmount').value);
+      const receiver = document.getElementById('voucherReceiver').value.trim() || 'সাধারণ';
+      const dateStr = new Date().toLocaleDateString('bn-BD');
+
+      if (!reason || amount <= 0) return;
+      try {
+        const isPending = currentUser.role === 'cashier';
+        await db.collection('vouchers').add({
+          reason: reason, amount: amount, receiver: receiver, createdBy: currentUser.name,
+          date: dateStr, status: isPending ? 'pending' : 'approved',
+          timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        alert(isPending ? "অনুমোদনের জন্য পাঠানো হয়েছে!" : "ভাউচার অনুমোদিত হয়েছে!");
+        closeModal('voucherModal');
+        document.getElementById('voucherReason').value = '';
+        document.getElementById('voucherAmount').value = '';
+        document.getElementById('voucherReceiver').value = '';
+      } catch (err) { alert("ত্রুটি: " + err.message); }
+    }
+
+    async function handleCreateMember(e) {
+      e.preventDefault();
+      const name = document.getElementById('newMemberName').value.trim();
+      const id = document.getElementById('newMemberId').value.trim();
+      const pin = document.getElementById('newMemberPin').value.trim();
+      const initDeposit = Number(document.getElementById('newMemberInitDeposit').value) || 0;
+
+      try {
+        const docRef = db.collection('members').doc(id);
+        const check = await docRef.get();
+        if (check.exists) { alert("এই আইডিটি আগেই ব্যবহার করা হয়েছে!"); return; }
+
+        await docRef.set({
+          name: name, pin: pin, role: 'member', ownDeposits: initDeposit, reinvestedProfit: 0, currentBalance: initDeposit
+        });
+        alert("নতুন সদস্য নিবন্ধিত হয়েছে!");
+        closeModal('memberModal');
+        document.getElementById('newMemberName').value = '';
+        document.getElementById('newMemberId').value = '';
+        document.getElementById('newMemberPin').value = '';
+        document.getElementById('newMemberInitDeposit').value = '0';
+      } catch (err) { alert("ব্যর্থ: " + err.message); }
+    }
+
+    function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+    function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+    function logout() { location.reload(); }
+  </script>
+</body>
+</html>
