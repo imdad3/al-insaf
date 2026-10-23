@@ -66,7 +66,7 @@
       </div>
     </header>
 
-    <main class="max-w-4xl mx-auto p-4 space-y-5">
+    <main class="max-w-4xl mx-auto p-4 space-y-4">
       <!-- ব্যক্তিগত একাউন্ট কার্ড -->
       <div class="bg-gradient-to-br from-teal-600 to-emerald-700 rounded-2xl p-5 text-white shadow-lg shadow-teal-600/20">
         <div class="flex justify-between items-start mb-3">
@@ -90,6 +90,23 @@
             <p class="text-[11px] text-teal-100">ব্যক্তিগত নিট মূলধন</p>
             <p id="userBalance" class="font-bold text-base sm:text-lg mt-0.5 text-yellow-300">৳ ০</p>
           </div>
+        </div>
+      </div>
+
+      <!-- সর্বমোট সদস্য সংখ্যা কার্ড (এডমিন, ক্যাশিয়ার ও সাধারণ সদস্য সবার জন্য দৃশ্যমান) -->
+      <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex items-center justify-between">
+        <div class="flex items-center space-x-3.5">
+          <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl shadow-inner">
+            <i class="fa-solid fa-users"></i>
+          </div>
+          <div>
+            <p class="text-xs font-bold text-slate-700">সমিতির সর্বমোট সদস্য সংখ্যা</p>
+            <p class="text-[11px] text-slate-400">নিবন্ধিত ও সক্রিয় সকল সদস্যের মোট সংখ্যা</p>
+          </div>
+        </div>
+        <div class="text-right">
+          <span id="statGlobalTotalMembers" class="text-3xl font-black text-indigo-600">০</span>
+          <span class="text-xs font-bold text-slate-500 ml-1">জন</span>
         </div>
       </div>
 
@@ -641,11 +658,10 @@
       } else if (currentUser.role === 'cashier') {
         roleBadge.innerText = 'ক্যাশিয়ার প্যানেল';
         roleTag.innerText = 'ক্যাশিয়ার';
-        // ক্যাশিয়ারের জন্য সদস্য তালিকা দৃশ্যমান হবে কিন্তু রোল ও এডিট/মুছুন কলাম লুকানো থাকবে
         document.getElementById('membersCapitalSection').classList.remove('hidden');
         document.getElementById('addMemberBtnAdmin').classList.add('hidden');
         document.getElementById('cashierActions').classList.remove('hidden');
-        document.getElementById('approvalSection').classList.add('hidden'); // ক্যাশিয়ার কোনো অনুমোদন দিতে পারবে না
+        document.getElementById('approvalSection').classList.add('hidden');
         document.getElementById('voucherHistorySection').classList.remove('hidden');
         document.getElementById('financialOverviewSection').classList.remove('hidden');
         document.getElementById('salesLedgerSection').classList.remove('hidden');
@@ -672,7 +688,7 @@
       listenToMembers();
       listenToSales();
       listenToApprovedVouchers();
-      listenToAllDeposits(); // জমার পাসবুক ও রসিদ হিস্ট্রি লিসেনার
+      listenToAllDeposits();
     }
 
     function applyMemberPermissions(user) {
@@ -719,12 +735,17 @@
           if (select) select.innerHTML += `<option value="${m.id}">${m.name} (${m.id})</option>`;
         });
 
+        // সর্বমোট সদস্য সংখ্যা রিয়েল-টাইমে আপডেট (বাংলায় রূপান্তরসহ)
+        const totalMembersEl = document.getElementById('statGlobalTotalMembers');
+        if (totalMembersEl) {
+          totalMembersEl.innerText = membersList.length.toLocaleString('bn-BD');
+        }
+
         recalculateOverallFinancials();
         renderMembersCapitalTable();
       });
     }
 
-    // সকল জমার হিস্ট্রি পর্যবেক্ষণ ও ব্যক্তিগত পাসবুক রেন্ডার
     function listenToAllDeposits() {
       db.collection('pending_deposits').onSnapshot(snap => {
         allDepositsList = [];
@@ -732,14 +753,11 @@
           allDepositsList.push({ id: doc.id, ...doc.data() });
         });
 
-        // তারিখ অনুসারে ক্রমানুসারে সাজানো (সর্বশেষ জমা ওপরে থাকবে)
         allDepositsList.sort((a, b) => (b.rawDate || '').localeCompare(a.rawDate || ''));
-
         renderUserPersonalPassbook();
       });
     }
 
-    // সদস্যের ব্যক্তিগত পাসবুক টেবিল তৈরি
     function renderUserPersonalPassbook() {
       const tbody = document.getElementById('userDepositHistoryBody');
       if (!tbody || !currentUser) return;
@@ -771,7 +789,6 @@
       });
     }
 
-    // নির্দিষ্ট কোনো সদস্যের রসিদ খতিয়ান দেখার পপআপ ওপেন
     function viewMemberPassbook(memberId) {
       const member = membersList.find(m => m.id === memberId);
       if (!member) return;
@@ -928,7 +945,6 @@
       if (totalExpEl) totalExpEl.innerText = `৳ ${totalExpenses.toLocaleString('bn-BD')}`;
     }
 
-    // সদস্য তালিকা রেন্ডারিং (ক্যাশিয়ারের জন্য শুধুমাত্র দেখার ব্যবস্থা)
     function renderMembersCapitalTable() {
       const tbody = document.getElementById('memberTableBody');
       if (!tbody || !currentUser || (currentUser.role !== 'admin' && currentUser.role !== 'cashier')) return;
@@ -946,7 +962,6 @@
           roleBadge = '<span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800">ক্যাশিয়ার</span>';
         }
 
-        // অ্যাডমিনের জন্য রোল পরিবর্তনের বাটন
         let roleColHtml = '';
         if (isAdmin) {
           let roleBtn = '';
@@ -960,7 +975,6 @@
           roleColHtml = `<td class="py-3 px-4 text-center">${roleBtn}</td>`;
         }
 
-        // অ্যাডমিনের জন্য এডিট ও মুছুন অপশন
         let actionColHtml = '';
         if (isAdmin) {
           let actionButtons = '';
@@ -1176,7 +1190,7 @@
       await batch.commit();
     }
 
-    // সঞ্চয় জমা এন্ট্রি (ক্যাশিয়ারের এন্ট্রি সর্বদা অপেক্ষমাণ থাকবে)
+    // সঞ্চয় জমা এন্ট্রি
     async function handleDeposit(e) {
       e.preventDefault();
       const memberId = document.getElementById('depositMemberSelect').value;
@@ -1218,7 +1232,6 @@
 
           alert(`সঞ্চয় সরাসরি নগদ তহবিলে জমা হয়েছে!\nরশিদ বই: ${receiptBook}, পাতা: ${receiptPage}`);
         } else {
-          // ক্যাশিয়ারের এন্ট্রি সরাসরি যোগ হবে না, এডমিনের অনুমোদনের জন্য যাবে
           await db.collection('pending_deposits').add({
             memberId: memberId,
             memberName: memberName,
@@ -1241,7 +1254,7 @@
       } catch (err) { alert("ত্রুটি: " + err.message); }
     }
 
-    // অপেক্ষমাণ তালিকা লিসেনার (শুধুমাত্র এডমিনের জন্য)
+    // অপেক্ষমাণ তালিকা লিসেনার
     function listenToApprovals() {
       db.collection('pending_deposits').where('status', '==', 'pending').onSnapshot(snap => {
         const list = document.getElementById('pendingDepositsList');
